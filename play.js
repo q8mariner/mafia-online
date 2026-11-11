@@ -187,7 +187,7 @@ function viewJoin() {
   if (!S.canJoin) return "<div class=\"card center\"><div class=\"hero-ic\">".concat(icon('clock'), "</div><h2>\u0627\u0644\u0644\u0639\u0628\u0629 \u062C\u0627\u0631\u064A\u0629 \u0627\u0644\u0622\u0646</h2><p>\u0627\u0646\u062A\u0638\u0631 \u062D\u062A\u0649 \u062A\u0646\u062A\u0647\u064A \u0627\u0644\u062C\u0648\u0644\u0629 \u0648\u062A\u0639\u0648\u062F \u0635\u0627\u0644\u0629 \u0627\u0644\u0627\u0646\u062A\u0638\u0627\u0631\u060C \u062B\u0645 \u0627\u062F\u062E\u0644.</p></div>");
   var room = S.room && S.room.name ? " \u0641\u064A <span class=\"red\">".concat(esc(S.room.name), "</span>") : '';
   var codeField = API.online && !API.room() ? "<label class=\"fl\" for=\"codeIn\">\u0643\u0648\u062F \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629</label>\n    <input class=\"input code\" id=\"codeIn\" maxlength=\"8\" autocomplete=\"off\" autocapitalize=\"characters\" dir=\"ltr\" placeholder=\"ABCDE\">" : '';
-  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon(API.online ? 'globe' : 'users'), " ").concat(API.online ? 'ديوانية أونلاين' : 'الانضمام', "</span><h2>\u0623\u0647\u0644\u0627\u064B \u0628\u0643 \u0641\u064A \u0627\u0644\u0645\u0627\u0641\u064A\u0627").concat(room, "</h2>\n    <p>").concat(API.online ? 'اكتب اسمك وادخل، والنقاش يكون على المكالمة.' : 'اكتب اسمك ليظهر على شاشة التلفزيون.', "</p>").concat(codeField, "\n    <label class=\"fl\" for=\"nameIn\">\u0627\u0633\u0645\u0643</label>\n    <input class=\"input\" id=\"nameIn\" maxlength=\"16\" value=\"").concat(esc(saved), "\" autocomplete=\"off\" enterkeyhint=\"go\" onkeydown=\"if(event.key==='Enter')join()\">\n    <button class=\"btn primary\" onclick=\"join()\">").concat(icon('play'), "\u062F\u062E\u0648\u0644 \u0627\u0644\u0644\u0639\u0628\u0629</button><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>");
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon(isOnlineRoom() ? 'globe' : 'users'), " ").concat(isOnlineRoom() ? 'أونلاين' : S.room ? 'الديوانية' : 'الانضمام', "</span><h2>\u0623\u0647\u0644\u0627\u064B \u0628\u0643 \u0641\u064A \u0627\u0644\u0645\u0627\u0641\u064A\u0627").concat(room, "</h2>\n    <p>").concat(isOnlineRoom() ? 'اكتب اسمك وادخل، والنقاش يكون على المكالمة.' : 'اكتب اسمك ليظهر على شاشة التلفزيون.', "</p>").concat(codeField, "\n    <label class=\"fl\" for=\"nameIn\">\u0627\u0633\u0645\u0643</label>\n    <input class=\"input\" id=\"nameIn\" maxlength=\"16\" value=\"").concat(esc(saved), "\" autocomplete=\"off\" enterkeyhint=\"go\" onkeydown=\"if(event.key==='Enter')join()\">\n    <button class=\"btn primary\" onclick=\"join()\">").concat(icon('play'), "\u062F\u062E\u0648\u0644 \u0627\u0644\u0644\u0639\u0628\u0629</button><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>");
 }
 function viewLobby() {
   return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('check'), "</div><div class=\"big\">\u0623\u0646\u062A \u062F\u0627\u062E\u0644</div><p>\u0627\u0646\u062A\u0638\u0631 \u062D\u062A\u0649 \u064A\u0628\u062F\u0623 \u0627\u0644\u0631\u0627\u0648\u064A \u0627\u0644\u0644\u0639\u0628\u0629").concat(API.online ? '' : ' من التلفزيون', ".</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646 \xB7 ").concat(S.players.length, "</span>\n    <div class=\"list\">").concat(S.players.map(function (p) {
@@ -435,8 +435,11 @@ function _recUpload() {
   }));
   return _recUpload.apply(this, arguments);
 }
+var isOnlineRoom = function isOnlineRoom() {
+  return !!(S && S.room && S.room.mode === 'online');
+};
 function voiceCard() {
-  if (!API.online) return '';
+  if (!isOnlineRoom()) return '';
   var list = S.voices || [],
     mine = list.some(function (v) {
       return v.playerId === S.me.id;
@@ -448,7 +451,7 @@ function voiceCard() {
   return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('mic'), " \u0631\u0633\u0627\u0626\u0644 \u0627\u0644\u0646\u0642\u0627\u0634 \u0627\u0644\u0635\u0648\u062A\u064A\u0629</span>\n    ").concat(S.me.alive ? '<p>كل واحد له رسالة وحدة لين دقيقة. تنمسح كلها أول ما يخلص النقاش.</p>' : '').concat(ctl, "\n    <div class=\"err\" role=\"alert\">").concat(esc(err), "</div>\n    <div class=\"vlist\">").concat(list.length ? Voices.html(list) : '<p class="small">ما في رسائل للحين.</p>', "</div></div>");
 }
 function viewDiscuss() {
-  return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('chat'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span><div class=\"huge\" id=\"cd\"></div><p>\u0646\u0627\u0642\u0634\u0648\u0627 ").concat(API.online ? 'على المكالمة' : 'بصوت عالٍ', ": \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</p></div>\n    ").concat(voiceCard(), "\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</span><div class=\"list\">").concat(S.players.map(function (p) {
+  return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('chat'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span><div class=\"huge\" id=\"cd\"></div><p>\u0646\u0627\u0642\u0634\u0648\u0627 ").concat(isOnlineRoom() ? 'على المكالمة' : 'بصوت عالٍ', ": \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</p></div>\n    ").concat(voiceCard(), "\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</span><div class=\"list\">").concat(S.players.map(function (p) {
     return choiceRow(p, false, {
       static: true,
       cls: p.alive ? '' : 'dead'

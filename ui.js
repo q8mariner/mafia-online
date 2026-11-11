@@ -85,7 +85,8 @@
   function cleanCode(c) {
     return String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
   }
-  var _room = ON ? cleanCode(param('r')) || cleanCode(store.get('mafia_room')) : '';
+  // ?mode=… (from the app's chooser) asks for a new room; otherwise the last room is resumed
+  var _room = ON ? cleanCode(param('r')) || (param('mode') ? '' : cleanCode(store.get('mafia_room'))) : '';
   var cache = {
     view: null,
     at: 0,
@@ -168,9 +169,16 @@
     joinUrl: function joinUrl(code) {
       return ON ? ON.pages + '?r=' + (code || _room) : '';
     },
-    create: function create(name) {
+    /** The mode asked for in the address (?mode=diwaniya|online), or ''. */
+    askedMode: function askedMode() {
+      if (!ON) return '';
+      var m = param('mode');
+      return m === 'diwaniya' || m === 'online' ? m : '';
+    },
+    create: function create(name, mode) {
       return postForm(ON.fn + '/create', {
-        name: name
+        name: name,
+        mode: mode
       }).then(function (r) {
         if (r.ok) {
           API.setRoom(r.code);
@@ -294,7 +302,7 @@
   // Original brand mark: faceless figure in a fedora with a red band and tie.
   // Brand mark supplied by the owner (transparent PNG, ~466x516).
   window.LOGO = function (cls) {
-    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwccjuw9" alt="شعار المافيا" draggable="false">';
+    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwccv6ue" alt="شعار المافيا" draggable="false">';
   };
   /** Roles on the mafia side (the godfather included). */
   window.isMafiaRole = function (r) {
