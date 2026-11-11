@@ -86,30 +86,17 @@ function speak(t) {
   } catch (e) {}
 }
 /** Plays a few of the narrator's lines so the host can hear the voice before playing. */
-var DEMO_LINES = ['توزعت الأدوار، كل واحد يشوف دوره بتلفونه بالسر ويدوس جاهز.', 'الليلة رقم واحد. الديرة نامت. كل واحد ياخذ جواله ويسوي اللي عليه بدون حس.', 'صباح الخير يا جماعة. للأسف، لقينا سالم مقتول.', 'يلا، بدا وقت النقاش. منو شاكّين فيه؟', 'الديرة حكمت على فهد. عندك عشرين ثانية، قول كلمتك الأخيرة.'];
+var DEMO_LINES = ['توزعت الأدوار، كل واحد يشوف دوره بتلفونه بالسر ويدوس جاهز.', 'صار الليل والديرة نامت. كل واحد ياخذ تلفونه ويسوي اللي عليه بدون لا يحس اللي يمه.', 'صباح الخير يا جماعة. للأسف، لقينا سالم مقتول.', 'يلا، بدا وقت النقاش. منو شاكّين فيه؟', 'الديرة حكمت على فهد. عندك عشرين ثانية، قول كلمتك الأخيرة.'];
 function demoNarrator() {
-  try {
-    if (window.Narrator && Narrator.available()) {
-      Narrator.speak(DEMO_LINES.join(' … '));
-      return;
-    }
-  } catch (e) {}
-  try {
-    speechSynthesis.cancel();
-    var v = gulfVoice();
-    for (var _i = 0, _DEMO_LINES = DEMO_LINES; _i < _DEMO_LINES.length; _i++) {
-      var t = _DEMO_LINES[_i];
-      var u = new SpeechSynthesisUtterance(t);
-      if (v) {
-        u.voice = v;
-        u.lang = v.lang;
-      } else u.lang = 'ar-KW';
-      u.rate = .95;
-      speechSynthesis.speak(u);
-    }
-  } catch (e) {
-    console.warn('no speech on this device', e);
-  }
+  var keys = ['reveal', 'night', 'morning-dead', 'discuss', 'last-words'];
+  var _next = function next(k) {
+    if (k < keys.length) say(keys[k], DEMO_LINES[k], function () {
+      return setTimeout(function () {
+        return _next(k + 1);
+      }, 600);
+    });
+  };
+  _next(0);
 }
 function updateSoundButton() {
   $('#soundBtn').innerHTML = icon(sound ? 'vol' : 'mute') + ' الراوي';
@@ -258,22 +245,56 @@ var Sfx = function () {
     return Sfx.unlock();
   }, true);
 });
+
+// The narrator's lines were recorded by the owner (assets/web/narrator/*.m4a). Names are not in the
+// recordings: the screen shows them. If a clip cannot play, the device's text-to-speech says the line.
+var CLIP_BASE = './narrator/';
+var clipAudio = null;
+function say(key, text, then) {
+  if (!sound) return;
+  try {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+  } catch (e) {}
+  if (clipAudio) {
+    clipAudio.onended = clipAudio.onerror = null;
+    clipAudio.pause();
+  }
+  var a = new Audio(CLIP_BASE + key + '.m4a');
+  var fell = false;
+  var fallback = function fallback() {
+    if (fell) return;
+    fell = true;
+    speak(text);
+    if (then) setTimeout(then, 3500);
+  };
+  a.onerror = fallback;
+  a.onended = function () {
+    if (then) then();
+  };
+  clipAudio = a;
+  var p = a.play();
+  if (p && p.catch) p.catch(fallback);
+}
 function narrate(s) {
   var p = s.phase,
     and = function and(names) {
       return names.join(' و ');
     };
-  if (p === 'reveal') speak('توزعت الأدوار، كل واحد يشوف دوره بتلفونه بالسر ويدوس جاهز.');else if (p === 'night') speak('الليلة رقم ' + s.round + '. الديرة نامت. كل واحد ياخذ جواله ويسوي اللي عليه بدون حس.');else if (p === 'morning') {
+  if (p === 'reveal') say('reveal', 'توزعت الأدوار، كل واحد يشوف دوره بتلفونه بالسر ويدوس جاهز.');else if (p === 'night') say('night', 'صار الليل والديرة نامت. كل واحد ياخذ تلفونه ويسوي اللي عليه بدون لا يحس اللي يمه.');else if (p === 'morning') {
     var names = ((s.morning || {}).victims || []).map(function (v) {
       return v.name;
     });
-    if (names.length) speak('صباح الخير يا جماعة. للأسف، لقينا ' + and(names) + (names.length > 1 ? ' مقتولين.' : ' مقتول.'));else speak('صباح الخير يا جماعة. الليلة عدّت على خير، ومحد انقتل.');
-  } else if (p === 'discuss') speak('يلا، بدا وقت النقاش. منو شاكّين فيه؟');else if (p === 'accuse') speak('خلص النقاش. كل واحد يتهم واحد من جواله. اللي ياخذ اتهامين أو أكثر يدخل المحاكمة.');else if (p === 'defense') speak('على المحاكمة: ' + and((s.candidates || []).map(function (c) {
+    if (names.length) say('morning-dead', 'صباح الخير يا جماعة. للأسف، لقينا ' + and(names) + (names.length > 1 ? ' مقتولين.' : ' مقتول.'));else say('morning-safe', 'صباح الخير يا جماعة. الليلة اللي طافت عدّت على خير، الحمد لله، ومحد انقتل.');
+  } else if (p === 'discuss') say('discuss', 'يلا، بدا وقت النقاش. منو شاكّين فيه؟');else if (p === 'accuse') say('accuse', 'خلص النقاش. كل واحد يتهم واحد من تلفونه. اللي ياخذ اتهامين أو أكثر يدخل المحاكمة.');else if (p === 'defense') say('defense', 'على المحاكمة: ' + and((s.candidates || []).map(function (c) {
     return c.name;
-  })) + '. عندكم ثلاثين ثانية تدافعون عن روحكم.');else if (p === 'vote') speak((s.candidates || []).length ? 'خلص الدفاع. صوّتوا الحين بين المتهمين.' : 'خلص النقاش. صوّتوا الحين من جوالاتكم.');else if (p === 'lastWords') speak('الديرة حكمت على ' + (s.lastWords || {}).name + '. عندك عشرين ثانية، قول كلمتك الأخيرة.');else if (p === 'verdict') {
-    var v = s.verdict || {};
-    if (v.executed > 0) speak('انعدم ' + v.executedName + (v.executedRole ? '. وطلع دوره: ' + R[v.executedRole].n : '. ودوره يبقى سر.'));else if (v.noTrial) speak('محد خذا اتهامين. ماكو محاكمة اليوم.');else speak(v.tie ? 'الأصوات تعادلت، ومحد انعدم اليوم.' : 'الديرة قررت ما تعدم أحد اليوم.');
-  } else if (p === 'over') speak(s.winner === 'mafia' ? 'خلصت اللعبة. المافيا فازت!' : 'خلصت اللعبة. الأبرياء فازوا، وخلصنا من المافيا!');
+  })) + '. عندكم ثلاثين ثانية تدافعون عن روحكم.');else if (p === 'vote') {
+    var trial = (s.candidates || []).length;
+    say(trial ? 'vote-trial' : 'vote-open', trial ? 'خلص الدفاع. صوّتوا الحين بين المتهمين.' : 'خلص النقاش. صوّتوا الحين من تلفوناتكم.');
+  } else if (p === 'lastWords') say('last-words', 'الديرة حكمت على ' + (s.lastWords || {}).name + '. عندك عشرين ثانية، قول كلمتك الأخيرة.');else if (p === 'verdict') {
+    var v = s.verdict || {},
+      r = v.executedRole;
+    if (v.executed > 0) say(!r ? 'exec-secret' : isMafiaRole(r) ? 'exec-mafia' : 'exec-town', 'تم الإعدام. ' + (!r ? 'ودوره يبقى سر.' : isMafiaRole(r) ? 'وطلع من المافيا!' : 'وطلع بريء!'));else if (v.noTrial) say('no-trial', 'محد خذا اتهامين. ماكو محاكمة اليوم.');else if (v.tie) say('tie', 'الأصوات تعادلت، ومحد انعدم اليوم.');else say('no-exec', 'الديرة قررت ما تعدم أحد اليوم.');
+  } else if (p === 'over') say(s.winner === 'mafia' ? 'win-mafia' : 'win-town', s.winner === 'mafia' ? 'خلصت اللعبة. المافيا فازت!' : 'خلصت اللعبة. أهل الديرة فازوا، وخلصنا من المافيا!');
 }
 
 // ---------------------------------------------------------------- rules overlay
