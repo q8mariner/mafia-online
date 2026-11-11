@@ -1,3 +1,12 @@
+function _slicedToArray(e, i) { return _iterableToArrayLimit(e, i) || _unsupportedIterableToArray(e, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(t, e) { if (t) { if ("string" == typeof t) return _arrayLikeToArray(t, e); var o = {}.toString.call(t).slice(8, -1); return "Object" === o && t.constructor && (o = t.constructor.name), "Map" === o || "Set" === o ? Array.from(t) : "Arguments" === o || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(o) ? _arrayLikeToArray(t, e) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, t) { var e = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (Array.isArray(r) && (null == e || e === ("undefined" != typeof Symbol && [][Symbol.iterator]) || e === []["@@iterator"])) return r; if (null != e) { var l, n, i, a, u = [], o = !0, f = !1; try { if (i = (e = e.call(r)).next, 0 === t) { if (Object(e) !== e) return; o = !1; } else for (; !(o = (l = i.call(e)).done) && (u.push(l.value), u.length !== t); o = !0); } catch (r) { f = !0, n = r; } finally { try { if (!o && null != e.return && (a = e.return(), Object(a) !== a)) return; } finally { if (f) throw n; } } return u; } }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var r, e, o = "function" == typeof Symbol ? Symbol : {}, n = o.iterator || "@@iterator", a = o.toStringTag || "@@toStringTag"; function i(o, n, a, i) { var u = n && n.prototype instanceof Generator ? n : Generator, f = Object.create(u.prototype); return _regeneratorDefine2(f, "_invoke", function (t, o, n) { var a, i, u, f = 0, p = n || [], y = !1, G = { p: 0, n: 0, v: r, a: l, f: l.bind(r, 4), d: function d(t, e) { return a = t, i = 0, u = r, G.n = e, c; } }; function l(t, o) { for (i = t, u = o, e = 0; !y && f && !n && e < p.length; e++) { var n, a = p[e], l = G.p, F = a[2]; t > 3 ? (n = F === o) && (u = a[(i = a[4]) ? 5 : (i = 3, 3)], a[4] = a[5] = r) : a[0] <= l && ((n = t < 2 && l < a[1]) ? (i = 0, G.v = o, G.n = a[1]) : l < F && (n = t < 3 || a[0] > o || o > F) && (a[4] = t, a[5] = o, G.n = F, i = 0)); } if (n || t > 1) return c; throw y = !0, o; } return function (n, p, F) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && l(p, F), i = p, u = F; (e = i < 2 ? r : u) || !y;) { a || (i ? i < 3 ? (i > 1 && (G.n = -1), l(i, u)) : G.n = u : G.v = u); try { if (f = 2, a) { if (i || (n = "next"), e = a[n]) { if (!(e = e.call(a, u))) throw TypeError("iterator result is not an object"); if (!e.done) return e; u = e.value, i < 2 && (i = 0); } else 1 === i && (e = a.return) && e.call(a), i < 2 && (u = TypeError("The iterator does not provide a '" + n + "' method"), i = 1); a = r; } else if ((e = (y = G.n < 0) ? u : t.call(o, G)) !== c) break; } catch (t) { a = r, i = 1, u = t; } finally { f = 1; } } return { value: e, done: y }; }; }(o, a, i), !0), f; } var c = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} e = Object.getPrototypeOf; var u = [][n] ? e(e([][n]())) : (_regeneratorDefine2(e = {}, n, function () { return this; }), e), f = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(u); function p(r) { return Object.setPrototypeOf ? Object.setPrototypeOf(r, GeneratorFunctionPrototype) : (r.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(r, a, "GeneratorFunction")), r.prototype = Object.create(f), r; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(f, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, a, "GeneratorFunction"), _regeneratorDefine2(f), _regeneratorDefine2(f, a, "Generator"), _regeneratorDefine2(f, n, function () { return this; }), _regeneratorDefine2(f, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: p }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // Shared helpers for the TV and phone pages: DOM/text utilities, the API call wrapper,
 // the brand mark, the line icon set (24px grid, 2px stroke) and the role texts.
 (function () {
@@ -24,45 +33,90 @@
     var s = Math.ceil(Math.max(0, ms) / 1000);
     return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
   };
-  var NETWORK_ERROR = {
+  /** Wire values shared with both servers: a target meaning "nobody (yet)" and one meaning "abstain / hold fire". */
+  window.NONE = -1;
+  window.SKIP = -2;
+
+  /** What a request resolves to when the server could not be reached at all (as opposed to a reply saying no). */
+  var NETWORK_ERROR = Object.freeze({
     ok: false,
+    network: true,
     error: 'تعذّر الاتصال'
-  };
-  /** GET JSON; network or parse failures resolve to {ok:false,error} instead of throwing. */
-  window.getJson = function (url) {
-    return fetch(url, {
-      cache: 'no-store'
-    }).then(function (r) {
+  });
+  var readJson = function readJson(what, request) {
+    return request.then(function (r) {
       return r.json();
     }).catch(function (e) {
-      console.warn('GET ' + url + ' failed', e);
+      console.warn(what + ' failed', e);
       return NETWORK_ERROR;
     });
   };
-  /** POST a form; always resolves to the server's {ok, error?, token?} envelope. */
+  /** GET JSON; network or parse failures resolve to {ok:false, network:true, error} instead of throwing. */
+  window.getJson = function (url) {
+    return readJson('GET ' + url, fetch(url, {
+      cache: 'no-store'
+    }));
+  };
+  /** POST a form; always resolves to the server's {ok, error?, token?} envelope (or the network failure above). */
   window.postForm = function (url, data) {
     var body = Object.keys(data).map(function (k) {
       return k + '=' + encodeURIComponent(data[k] == null ? '' : data[k]);
     }).join('&');
-    return fetch(url, {
+    return readJson('POST ' + url, fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: body
-    }).then(function (r) {
-      return r.json();
-    }).catch(function (e) {
-      console.warn('POST ' + url + ' failed', e);
-      return NETWORK_ERROR;
-    });
+    }));
   };
 
-  // ---------------------------------------------------------------- game API
-  // Local mode (the Android app on the room's Wi-Fi) talks to the app's own server. Online mode
-  // ("ديوانية أونلاين", pages hosted on the web) talks to the Supabase function with a room code, and
-  // polls the cheap public version row so the full view is only fetched when something changed.
-  var ON = window.MAFIA_ONLINE || null;
+  /**
+   * Wraps a page's poll so two never run at once (a slow answer could otherwise overwrite a newer one). A call made
+   * while one is running is not lost: one more poll runs right after, so a refresh asked for after a command happens.
+   */
+  window.serialPoll = function (fn) {
+    var running = false,
+      again = false;
+    var _run = /*#__PURE__*/function () {
+      var _run2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              if (!running) {
+                _context.n = 1;
+                break;
+              }
+              again = true;
+              return _context.a(2);
+            case 1:
+              running = true;
+              _context.p = 2;
+              _context.n = 3;
+              return fn();
+            case 3:
+              _context.p = 3;
+              running = false;
+              return _context.f(3);
+            case 4:
+              if (again) {
+                again = false;
+                _run();
+              }
+            case 5:
+              return _context.a(2);
+          }
+        }, _callee, null, [[2,, 3, 4]]);
+      }));
+      function run() {
+        return _run2.apply(this, arguments);
+      }
+      return run;
+    }();
+    return _run;
+  };
+
+  /** localStorage that never throws (private mode, blocked storage): missing values read as null. */
   var store = {
     get: function get(k) {
       try {
@@ -74,49 +128,111 @@
     set: function set(k, v) {
       try {
         if (v == null) localStorage.removeItem(k);else localStorage.setItem(k, v);
-      } catch (e) {}
+      } catch (e) {/* storage unavailable: nothing to keep */}
     }
   };
   window.store = store;
-  function param(name) {
+
+  // ---------------------------------------------------------------- game API
+  // Local mode (the Android app's Wi-Fi fallback) talks to the app's own server. The hosted modes talk to the
+  // Supabase function with a room code, and poll the cheap public version row so the full view is only fetched
+  // when something changed.
+  var ON = window.MAFIA_ONLINE || null;
+  var param = function param(name) {
     var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search);
     return m ? decodeURIComponent(m[1]) : '';
-  }
-  function cleanCode(c) {
+  };
+  /** Room codes are typed by people: upper-case, letters and digits only, at most 8 (api.ts cleanCode). */
+  var cleanCode = function cleanCode(c) {
     return String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
-  }
+  };
   // ?mode=… (from the app's chooser) asks for a new room; otherwise the last room is resumed
   var _room = ON ? cleanCode(param('r')) || (param('mode') ? '' : cleanCode(store.get('mafia_room'))) : '';
-  var cache = {
-    view: null,
-    at: 0,
-    lastFull: 0,
-    dirty: true
+  var freshCache = function freshCache() {
+    return {
+      view: null,
+      at: 0,
+      lastFull: 0,
+      dirty: true
+    };
   };
-  function copy(o, extra) {
-    var r = {},
-      k;
-    for (k in o) r[k] = o[k];
-    for (k in extra || {}) r[k] = extra[k];
-    return r;
+  var cache = freshCache();
+  /** Where the host's secret for the current room is kept on this phone. */
+  var hostSecretSlot = function hostSecretSlot() {
+    return 'mafia_host_' + _room;
+  };
+  /** Local mode: the key the app's server requires on host calls (only the app's own WebView has it). */
+  var appHostKey = function appHostKey() {
+    try {
+      return window.AndroidApp && AndroidApp.hostKey ? AndroidApp.hostKey() : '';
+    } catch (e) {
+      return '';
+    }
+  };
+
+  /** The URL and parameters of one API operation in the current mode (host operations add the host's key). */
+  function endpoint(op, params, asHost) {
+    if (ON) return [ON.fn + '/' + op, Object.assign({
+      code: _room
+    }, asHost ? {
+      host: store.get(hostSecretSlot())
+    } : {}, params)];
+    var local = {
+      state: '/api/tv/state',
+      action: '/api/tv/action',
+      me: '/api/me',
+      join: '/api/join',
+      act: '/api/act'
+    }[op];
+    return [local, Object.assign(asHost ? {
+      host: appHostKey()
+    } : {}, params)];
   }
-  /** Online: return the last full view (with a moved-on clock) unless the room changed or a timer ran out. */
-  function smart(fetchFull) {
+  var query = function query(params) {
+    return Object.keys(params).map(function (k) {
+      return k + '=' + encodeURIComponent(params[k] == null ? '' : params[k]);
+    }).join('&');
+  };
+  var getView = function getView(op, params, asHost) {
+    var _endpoint = endpoint(op, params, asHost),
+      _endpoint2 = _slicedToArray(_endpoint, 2),
+      url = _endpoint2[0],
+      p = _endpoint2[1];
+    return getJson(url + '?' + query(p));
+  };
+  /** A command: afterwards the next view is fetched in full, whatever the version row says. */
+  var command = function command(op, params, asHost) {
+    var _endpoint3 = endpoint(op, params, asHost),
+      _endpoint4 = _slicedToArray(_endpoint3, 2),
+      url = _endpoint4[0],
+      p = _endpoint4[1];
+    return postForm(url, p).then(markDirty);
+  };
+  var markDirty = function markDirty(r) {
+    cache.dirty = true;
+    return r;
+  };
+
+  /**
+   * Hosted modes: answers with the last full view (its clock moved on) unless the room's version changed, a timer
+   * is due, or it is time for a periodic refresh; then fetches the view in full. Local mode always fetches in full.
+   */
+  function viewIfChanged(fetchFull) {
+    if (!ON) return fetchFull();
     var now = Date.now(),
       c = cache,
       s = c.view;
-    function full() {
+    var full = function full() {
       return fetchFull().then(function (r) {
-        if (r && r.ok !== false) {
-          c.view = r;
-          c.at = Date.now();
-          c.lastFull = c.at;
-          c.dirty = false;
-        } else c.dirty = true;
+        if (r && r.ok !== false) Object.assign(c, {
+          view: r,
+          at: Date.now(),
+          lastFull: Date.now(),
+          dirty: false
+        });else c.dirty = true;
         return r;
       });
-    }
-    if (!ON) return fetchFull();
+    };
     var serverNow = s ? s.now + (now - c.at) : 0;
     if (c.dirty || !s || s.endsAt && serverNow >= s.endsAt - 300 && now - c.lastFull > 1500 || (s.phase === 'lobby' || s.phase === 'nojoin') && now - c.lastFull > 3000 || now - c.lastFull > 15000) return full();
     return fetch(ON.rest + '/mafia_room_versions?select=v&code=eq.' + _room, {
@@ -128,20 +244,13 @@
     }).then(function (r) {
       return r.json();
     }).then(function (rows) {
-      return rows && rows.length && rows[0].v === s.v ? copy(s, {
+      return rows && rows.length && rows[0].v === s.v ? Object.assign({}, s, {
         now: s.now + (Date.now() - c.at)
       }) : full();
     }).catch(function () {
       return full();
     });
   }
-  function dirty(r) {
-    cache.dirty = true;
-    return r;
-  }
-  var hostKey = function hostKey() {
-    return 'mafia_host_' + _room;
-  };
   window.API = {
     online: !!ON,
     room: function room() {
@@ -150,18 +259,13 @@
     setRoom: function setRoom(code) {
       _room = cleanCode(code);
       store.set('mafia_room', _room || null);
-      cache = {
-        view: null,
-        at: 0,
-        lastFull: 0,
-        dirty: true
-      };
+      cache = freshCache();
       try {
         history.replaceState(null, '', location.pathname + (_room ? '?r=' + _room : ''));
-      } catch (e) {}
+      } catch (e) {/* old WebView: the address just keeps the old room */}
     },
     isHost: function isHost() {
-      return !ON || !!store.get(hostKey());
+      return !ON || !!store.get(hostSecretSlot());
     },
     tokenKey: function tokenKey() {
       return ON ? 'mafia_t_' + _room : 'mafia_t';
@@ -169,11 +273,19 @@
     joinUrl: function joinUrl(code) {
       return ON ? ON.pages + '?r=' + (code || _room) : '';
     },
-    /** The mode asked for in the address (?mode=diwaniya|online), or ''. */
-    askedMode: function askedMode() {
+    /** The mode asked for in the address (?mode=diwaniya|online), or ''. */askedMode: function askedMode() {
       if (!ON) return '';
       var m = param('mode');
       return m === 'diwaniya' || m === 'online' ? m : '';
+    },
+    /** The phone's view before it has a room to look at (hosted modes only). */
+    noRoomView: function noRoomView() {
+      return {
+        phase: 'nojoin',
+        canJoin: true,
+        needRoom: true,
+        v: 0
+      };
     },
     create: function create(name, mode) {
       return postForm(ON.fn + '/create', {
@@ -182,75 +294,55 @@
       }).then(function (r) {
         if (r.ok) {
           API.setRoom(r.code);
-          store.set(hostKey(), r.host);
+          store.set(hostSecretSlot(), r.host);
         }
         return r;
       });
     },
     tvState: function tvState() {
-      return smart(function () {
-        return ON ? getJson(ON.fn + '/state?code=' + _room + '&host=' + store.get(hostKey())) : getJson('/api/tv/state');
+      return viewIfChanged(function () {
+        return getView('state', {}, true);
       });
     },
     tvAction: function tvAction(a, arg) {
-      return (ON ? postForm(ON.fn + '/action', {
-        code: _room,
-        host: store.get(hostKey()),
+      return command('action', {
         a: a,
         arg: arg
-      }) : postForm('/api/tv/action', {
-        a: a,
-        arg: arg
-      })).then(dirty);
+      }, true);
     },
     me: function me(t) {
-      if (ON && !_room) return Promise.resolve({
-        phase: 'nojoin',
-        canJoin: true,
-        needRoom: true,
-        v: 0
-      });
-      return smart(function () {
-        return ON ? getJson(ON.fn + '/me?code=' + _room + '&t=' + encodeURIComponent(t || '')) : getJson('/api/me?t=' + encodeURIComponent(t || ''));
+      return ON && !_room ? Promise.resolve(API.noRoomView()) : viewIfChanged(function () {
+        return getView('me', {
+          t: t || ''
+        });
       });
     },
     join: function join(name, t) {
-      return (ON ? postForm(ON.fn + '/join', {
-        code: _room,
+      return command('join', {
         name: name,
         t: t
-      }) : postForm('/api/join', {
-        name: name,
-        t: t
-      })).then(dirty);
+      });
     },
-    /** Online only: a voice message (Blob) recorded during the discussion, {@code ms} long. */
-    sendVoice: function sendVoice(t, blob, ms) {
+    act: function act(t, a, target) {
+      return command('act', {
+        t: t,
+        a: a,
+        target: target
+      });
+    },
+    /** Hosted only: a voice message (Blob) recorded during the discussion, {@code ms} long. */sendVoice: function sendVoice(t, blob, ms) {
       var type = (blob.type || 'audio/webm').split(';')[0];
-      return fetch(ON.fn + '/voice?code=' + _room + '&t=' + encodeURIComponent(t || '') + '&ms=' + Math.round(ms), {
+      return readJson('voice upload', fetch(ON.fn + '/voice?' + query({
+        code: _room,
+        t: t || '',
+        ms: Math.round(ms)
+      }), {
         method: 'POST',
         headers: {
           'Content-Type': type
         },
         body: blob
-      }).then(function (r) {
-        return r.json();
-      }).catch(function (e) {
-        console.warn('voice upload failed', e);
-        return NETWORK_ERROR;
-      }).then(dirty);
-    },
-    act: function act(t, a, target) {
-      return (ON ? postForm(ON.fn + '/act', {
-        code: _room,
-        t: t,
-        a: a,
-        target: target
-      }) : postForm('/api/act', {
-        t: t,
-        a: a,
-        target: target
-      })).then(dirty);
+      })).then(markDirty);
     }
   };
   var P = {
@@ -298,14 +390,17 @@
   window.icon = function (name, cls) {
     return '<svg class="i ' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[name] || '') + '</svg>';
   };
-  // Original brand mark: faceless figure in a fedora with a red band and tie.
   // Brand mark supplied by the owner (transparent PNG, ~466x516).
   window.LOGO = function (cls) {
-    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwceuz5s" alt="شعار المافيا" draggable="false">';
+    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwck669i" alt="شعار المافيا" draggable="false">';
   };
   /** Roles on the mafia side (the godfather included). */
   window.isMafiaRole = function (r) {
     return r === 'mafia' || r === 'godfather';
+  };
+  /** A role's coloured tag (icon and name), or '' for an unknown role. */
+  window.roleTag = function (r) {
+    return r && ROLE_INFO[r] ? '<span class="tag ' + r + '">' + icon(ROLE_INFO[r].i) + ROLE_INFO[r].n + '</span>' : '';
   };
   // ---------------------------------------------------------------- discussion voice messages (online)
   // Players are Audio objects kept outside the page markup, so redrawing a screen never cuts a message off.
@@ -317,15 +412,17 @@
       a.preload = 'none';
       a.src = v.url;
       a.onended = a.onpause = a.onplay = function () {
-        Voices.refresh();
+        return Voices.refresh();
       };
       clips[v.id] = a;
     }
     return a;
   }
+  var progress = function progress(a) {
+    return a.duration && isFinite(a.duration) ? Math.min(100, Math.round(a.currentTime * 100 / a.duration)) : 0;
+  };
   window.Voices = {
-    /** Buttons for the current list ({id, name, ms, url}). */
-    html: function html(list, cls) {
+    /** Buttons for the current list ({id, name, ms, url}). */html: function html(list, cls) {
       return (list || []).map(function (v) {
         var a = clip(v),
           on = !a.paused;
@@ -339,13 +436,12 @@
         for (var k in clips) if (clips[k] !== a) clips[k].pause();
         var p = a.play();
         if (p && p.catch) p.catch(function (e) {
-          console.warn('cannot play voice message', e);
+          return console.warn('cannot play voice message', e);
         });
       } else a.pause();
       Voices.refresh();
     },
-    /** Updates play/pause icons and progress bars in place. */
-    refresh: function refresh() {
+    /** Updates play/pause icons and progress bars in place. */refresh: function refresh() {
       for (var id in clips) {
         var b = document.getElementById('vb' + id);
         if (!b) continue;
@@ -356,8 +452,7 @@
         b.querySelector('.vbar').style.width = progress(a) + '%';
       }
     },
-    /** Stops and forgets messages that are no longer listed (the discussion ended, or one was replaced). */
-    prune: function prune(list) {
+    /** Stops and forgets messages that are no longer listed (the discussion ended, or one was replaced). */prune: function prune(list) {
       var keep = {};
       (list || []).forEach(function (v) {
         keep[v.id] = true;
@@ -369,9 +464,6 @@
       }
     }
   };
-  function progress(a) {
-    return a.duration && isFinite(a.duration) ? Math.min(100, Math.round(a.currentTime * 100 / a.duration)) : 0;
-  }
   window.ROLE_INFO = {
     mafia: {
       n: 'مافيا',

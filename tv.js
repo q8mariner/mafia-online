@@ -1,11 +1,11 @@
-function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var r, e, o = "function" == typeof Symbol ? Symbol : {}, n = o.iterator || "@@iterator", a = o.toStringTag || "@@toStringTag"; function i(o, n, a, i) { var u = n && n.prototype instanceof Generator ? n : Generator, f = Object.create(u.prototype); return _regeneratorDefine2(f, "_invoke", function (t, o, n) { var a, i, u, f = 0, p = n || [], y = !1, G = { p: 0, n: 0, v: r, a: l, f: l.bind(r, 4), d: function d(t, e) { return a = t, i = 0, u = r, G.n = e, c; } }; function l(t, o) { for (i = t, u = o, e = 0; !y && f && !n && e < p.length; e++) { var n, a = p[e], l = G.p, F = a[2]; t > 3 ? (n = F === o) && (u = a[(i = a[4]) ? 5 : (i = 3, 3)], a[4] = a[5] = r) : a[0] <= l && ((n = t < 2 && l < a[1]) ? (i = 0, G.v = o, G.n = a[1]) : l < F && (n = t < 3 || a[0] > o || o > F) && (a[4] = t, a[5] = o, G.n = F, i = 0)); } if (n || t > 1) return c; throw y = !0, o; } return function (n, p, F) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && l(p, F), i = p, u = F; (e = i < 2 ? r : u) || !y;) { a || (i ? i < 3 ? (i > 1 && (G.n = -1), l(i, u)) : G.n = u : G.v = u); try { if (f = 2, a) { if (i || (n = "next"), e = a[n]) { if (!(e = e.call(a, u))) throw TypeError("iterator result is not an object"); if (!e.done) return e; u = e.value, i < 2 && (i = 0); } else 1 === i && (e = a.return) && e.call(a), i < 2 && (u = TypeError("The iterator does not provide a '" + n + "' method"), i = 1); a = r; } else if ((e = (y = G.n < 0) ? u : t.call(o, G)) !== c) break; } catch (t) { a = r, i = 1, u = t; } finally { f = 1; } } return { value: e, done: y }; }; }(o, a, i), !0), f; } var c = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} e = Object.getPrototypeOf; var u = [][n] ? e(e([][n]())) : (_regeneratorDefine2(e = {}, n, function () { return this; }), e), f = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(u); function p(r) { return Object.setPrototypeOf ? Object.setPrototypeOf(r, GeneratorFunctionPrototype) : (r.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(r, a, "GeneratorFunction")), r.prototype = Object.create(f), r; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(f, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, a, "GeneratorFunction"), _regeneratorDefine2(f), _regeneratorDefine2(f, a, "Generator"), _regeneratorDefine2(f, n, function () { return this; }), _regeneratorDefine2(f, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: p }; })(); }
-function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function _createForOfIteratorHelper(e, t) { var _n = "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"]; if (!_n) { if (Array.isArray(e) || (_n = _unsupportedIterableToArray(e)) || t && e && "number" == typeof e.length) { _n && (e = _n); var o = 0, F = function F() {}; return { s: F, n: function n() { return o >= e.length ? { done: !0 } : { done: !1, value: e[o++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var a, u, i = !0; return { s: function s() { _n = _n.call(e); }, n: function n() { i = !0; var r = _n.next(); return r.done ? { done: !0 } : { value: r.value, done: i = !1 }; }, e: function e(r) { a = !0, u = r; }, f: function f() { try { i || null == _n.return || _n.return(); } finally { if (a) throw u; } } }; }
 function _slicedToArray(e, i) { return _iterableToArrayLimit(e, i) || _unsupportedIterableToArray(e, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(t, e) { if (t) { if ("string" == typeof t) return _arrayLikeToArray(t, e); var o = {}.toString.call(t).slice(8, -1); return "Object" === o && t.constructor && (o = t.constructor.name), "Map" === o || "Set" === o ? Array.from(t) : "Arguments" === o || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(o) ? _arrayLikeToArray(t, e) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, t) { var e = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (Array.isArray(r) && (null == e || e === ("undefined" != typeof Symbol && [][Symbol.iterator]) || e === []["@@iterator"])) return r; if (null != e) { var l, n, i, a, u = [], o = !0, f = !1; try { if (i = (e = e.call(r)).next, 0 === t) { if (Object(e) !== e) return; o = !1; } else for (; !(o = (l = i.call(e)).done) && (u.push(l.value), u.length !== t); o = !0); } catch (r) { f = !0, n = r; } finally { try { if (!o && null != e.return && (a = e.return(), Object(a) !== a)) return; } finally { if (f) throw n; } } return u; } }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var r, e, o = "function" == typeof Symbol ? Symbol : {}, n = o.iterator || "@@iterator", a = o.toStringTag || "@@toStringTag"; function i(o, n, a, i) { var u = n && n.prototype instanceof Generator ? n : Generator, f = Object.create(u.prototype); return _regeneratorDefine2(f, "_invoke", function (t, o, n) { var a, i, u, f = 0, p = n || [], y = !1, G = { p: 0, n: 0, v: r, a: l, f: l.bind(r, 4), d: function d(t, e) { return a = t, i = 0, u = r, G.n = e, c; } }; function l(t, o) { for (i = t, u = o, e = 0; !y && f && !n && e < p.length; e++) { var n, a = p[e], l = G.p, F = a[2]; t > 3 ? (n = F === o) && (u = a[(i = a[4]) ? 5 : (i = 3, 3)], a[4] = a[5] = r) : a[0] <= l && ((n = t < 2 && l < a[1]) ? (i = 0, G.v = o, G.n = a[1]) : l < F && (n = t < 3 || a[0] > o || o > F) && (a[4] = t, a[5] = o, G.n = F, i = 0)); } if (n || t > 1) return c; throw y = !0, o; } return function (n, p, F) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && l(p, F), i = p, u = F; (e = i < 2 ? r : u) || !y;) { a || (i ? i < 3 ? (i > 1 && (G.n = -1), l(i, u)) : G.n = u : G.v = u); try { if (f = 2, a) { if (i || (n = "next"), e = a[n]) { if (!(e = e.call(a, u))) throw TypeError("iterator result is not an object"); if (!e.done) return e; u = e.value, i < 2 && (i = 0); } else 1 === i && (e = a.return) && e.call(a), i < 2 && (u = TypeError("The iterator does not provide a '" + n + "' method"), i = 1); a = r; } else if ((e = (y = G.n < 0) ? u : t.call(o, G)) !== c) break; } catch (t) { a = r, i = 1, u = t; } finally { f = 1; } } return { value: e, done: y }; }; }(o, a, i), !0), f; } var c = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} e = Object.getPrototypeOf; var u = [][n] ? e(e([][n]())) : (_regeneratorDefine2(e = {}, n, function () { return this; }), e), f = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(u); function p(r) { return Object.setPrototypeOf ? Object.setPrototypeOf(r, GeneratorFunctionPrototype) : (r.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(r, a, "GeneratorFunction")), r.prototype = Object.create(f), r; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(f, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, a, "GeneratorFunction"), _regeneratorDefine2(f), _regeneratorDefine2(f, a, "Generator"), _regeneratorDefine2(f, n, function () { return this; }), _regeneratorDefine2(f, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: p }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // Narrator screen (runs in the app's WebView on the TV). Needs ui.js and rules.js.
@@ -17,10 +17,7 @@ var S = null,
   clockOffset = 0,
   qrUrl = null,
   qrMarkup = '';
-var sound = true;
-try {
-  sound = localStorage.getItem('sound') !== '0';
-} catch (e) {}
+var sound = store.get('mafia_sound') !== '0';
 $('#brandLogo').innerHTML = LOGO();
 $('#rulesBtn').innerHTML = icon('book') + ' طريقة اللعب';
 $('#rulesClose').innerHTML = icon('x') + ' رجوع';
@@ -33,10 +30,7 @@ function updateSoundButton() {
 }
 $('#soundBtn').onclick = function () {
   sound = !sound;
-  try {
-    localStorage.setItem('sound', sound ? '1' : '0');
-  } catch (e) {}
-  ;
+  store.set('mafia_sound', sound ? '1' : '0');
   updateSoundButton();
   if (!sound) Sfx.nightOff();else if (S && S.phase === 'night') Sfx.nightOn();
 };
@@ -206,30 +200,33 @@ window.onBackKey = function () {
 // ---------------------------------------------------------------- api
 function action(_x, _x2) {
   return _action.apply(this, arguments);
-} // ---------------------------------------------------------------- helpers
+}
+/** Ends the phase on screen. Sends its step, so a second press (or a timer that just ran out) cannot skip the next phase too. */
 function _action() {
-  _action = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(a, arg) {
+  _action = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(a, arg) {
     var j;
-    return _regenerator().w(function (_context) {
-      while (1) switch (_context.n) {
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.n) {
         case 0:
-          _context.n = 1;
+          _context2.n = 1;
           return API.tvAction(a, arg);
         case 1:
-          j = _context.v;
+          j = _context2.v;
           lastErr = j.error || '';
           lastV = -1;
           poll();
         case 2:
-          return _context.a(2);
+          return _context2.a(2);
       }
-    }, _callee);
+    }, _callee2);
   }));
   return _action.apply(this, arguments);
 }
-var roleTag = function roleTag(r) {
-  return r ? "<span class=\"tag ".concat(r, "\">").concat(icon(R[r].i)).concat(R[r].n, "</span>") : '';
+var nextPhase = function nextPhase() {
+  return action('next', S ? S.step : undefined);
 };
+
+// ---------------------------------------------------------------- helpers
 function playerTile(p, extra) {
   var st = !p.alive ? "<span class=\"st\">".concat(icon('skull'), "</span>") : extra === 'done' ? "<span class=\"st\">".concat(icon('check'), "</span>") : '';
   return "<div class=\"ptile ".concat(p.alive ? '' : 'dead', " ").concat(extra || '', "\"><span class=\"av\">").concat(initials(p.name), "</span><span class=\"nm\">").concat(esc(p.name), "</span>").concat(roleTag(p.role)).concat(st, "</div>");
@@ -276,7 +273,7 @@ function screenLobby(s) {
   var role = function role(k, ic, label, key, from) {
     return n >= from ? "<div class=\"set\"><span class=\"lbl\">".concat(icon(ic), " ").concat(label, "</span>").concat(sw(k, st[key], label, key), "</div>") : "<div class=\"set locked\" title=\"\u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ".concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><span class=\"lbl\">").concat(icon(ic), " ").concat(label, " <small>").concat(from, "+</small></span><button class=\"sw\" disabled aria-label=\"").concat(label, ": \u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ").concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><i></i></button></div>");
   };
-  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealNight, 'كشف دور الميت (المقتول والمعدوم)', 'revealNight'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
+  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealRoles, 'كشف دور الميت (المقتول والمعدوم)', 'revealRoles'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
 }
 
 /** The cards the next game deals, as "3 مافيا · المحقق · …", so the host sees which roles fit. */
@@ -353,33 +350,33 @@ function createRoom() {
   return _createRoom.apply(this, arguments);
 }
 function _createRoom() {
-  _createRoom = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+  _createRoom = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
     var name, r;
-    return _regenerator().w(function (_context2) {
-      while (1) switch (_context2.n) {
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.n) {
         case 0:
           name = (($('#roomName') || {}).value || '').trim();
           store.set('mafia_room_name', name);
           $('#main').querySelector('.err').textContent = 'جاري الإنشاء…';
-          _context2.n = 1;
+          _context3.n = 1;
           return API.create(name, createMode);
         case 1:
-          r = _context2.v;
+          r = _context3.v;
           if (r.ok) {
-            _context2.n = 2;
+            _context3.n = 2;
             break;
           }
           $('#main').innerHTML = screenCreate(r.error || 'تعذّر الاتصال');
-          return _context2.a(2);
+          return _context3.a(2);
         case 2:
           lastV = -1;
           render.sig = null;
           lastPhase = null;
           poll();
         case 3:
-          return _context2.a(2);
+          return _context3.a(2);
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _createRoom.apply(this, arguments);
 }
@@ -404,7 +401,7 @@ function screenReveal(s) {
         alive: true
       }, p.ready ? 'done' : '');
     }).join(''), "</div>"),
-    actions: actionButton('next', 'ابدأ الليل الآن', 'skip', "action('next')")
+    actions: actionButton('next', 'ابدأ الليل الآن', 'skip', "nextPhase()")
   });
 }
 function screenNight(s) {
@@ -415,7 +412,7 @@ function screenNight(s) {
     orbCls: 'white',
     kicker: 'الليلة ' + s.round,
     body: "<div class=\"huge\">\u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0646\u0627\u0626\u0645\u0629\u2026</div>\n      <div class=\"lead\">\u0643\u0644 \u0644\u0627\u0639\u0628 \u062D\u064A \u064A\u0646\u0641\u0651\u0630 \u0645\u0647\u0645\u062A\u0647 \u0645\u0646 \u062C\u0648\u0627\u0644\u0647 \u0628\u0635\u0645\u062A\u060C \u062D\u062A\u0649 \u0627\u0644\u0645\u0648\u0627\u0637\u0646\u0648\u0646 \u064A\u062E\u062A\u0627\u0631\u0648\u0646 \u0644\u0644\u062A\u0645\u0648\u064A\u0647. \u0644\u0627 \u062A\u0646\u0638\u0631\u0648\u0627 \u0644\u0634\u0627\u0634\u0627\u062A \u0628\u0639\u0636.</div>\n      <div class=\"bar\"><i style=\"width:".concat(pct, "%\"></i></div><div class=\"meta\">").concat(pr.done, " \u0645\u0646 ").concat(pr.total, " \u0623\u0646\u0647\u0648\u0627 \u0645\u0647\u0645\u062A\u0647\u0645</div>"),
-    actions: actionButton('next', 'إنهاء الليل الآن', 'skip', "action('next')", 'sm ghost')
+    actions: actionButton('next', 'إنهاء الليل الآن', 'skip', "nextPhase()", 'sm ghost')
   });
 }
 function screenMorning(s) {
@@ -431,7 +428,7 @@ function screenMorning(s) {
     orbCls: victims.length ? 'red' : 'white',
     kicker: 'صباح اليوم ' + s.round,
     body: body,
-    actions: actionButton('next', 'ابدأ النقاش <span id="cd2"></span>', 'chat', "action('next')", '', 'data-default')
+    actions: actionButton('next', 'ابدأ النقاش <span id="cd2"></span>', 'chat', "nextPhase()", '', 'data-default')
   });
 }
 function screenDiscuss(s) {
@@ -440,7 +437,7 @@ function screenDiscuss(s) {
     body: "<div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u062F\u0627\u0641\u0639\u0648\u0627 \u0639\u0646 \u0623\u0646\u0641\u0633\u0643\u0645\u060C \u0627\u062A\u0647\u0645\u0648\u0627\u060C \u062D\u0644\u0651\u0644\u0648\u0627\u2026 \u0645\u0646 \u0628\u064A\u0646\u0643\u0645 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</div>\n      ".concat(s.room && s.room.mode === 'online' && (s.voices || []).length ? "<div class=\"vtitle\">".concat(icon('mic'), " \u0631\u0633\u0627\u0626\u0644 \u0635\u0648\u062A\u064A\u0629 \u2014 \u0627\u0636\u063A\u0637 \u0644\u062A\u0634\u063A\u064A\u0644\u0647\u0627 \u0644\u0644\u0643\u0644\u060C \u0648\u062A\u0646\u0645\u0633\u062D \u0628\u0639\u062F \u0627\u0644\u0646\u0642\u0627\u0634</div><div class=\"vlist\">").concat(Voices.html(s.voices, 'tv'), "</div>") : "<div class=\"grid wide\">".concat(s.players.map(function (p) {
       return playerTile(p);
     }).join(''), "</div>").concat(s.room && s.room.mode === 'online' ? "<div class=\"meta\">".concat(icon('mic'), " \u0643\u0644 \u0644\u0627\u0639\u0628 \u064A\u0642\u062F\u0631 \u064A\u0633\u062C\u0651\u0644 \u0631\u0633\u0627\u0644\u0629 \u0635\u0648\u062A\u064A\u0629 \u062F\u0642\u064A\u0642\u0629 \u0645\u0646 \u062C\u0648\u0627\u0644\u0647</div>") : '')),
-    actions: actionButton('add', 'دقيقة إضافية', 'plus', "action('addTime')") + actionButton('next', 'ابدأ التصويت', 'vote', "action('next')", 'primary', 'data-default')
+    actions: actionButton('add', 'دقيقة إضافية', 'plus', "action('addTime')") + actionButton('next', 'ابدأ التصويت', 'vote', "nextPhase()", 'primary', 'data-default')
   });
 }
 function screenAccuse(s) {
@@ -451,10 +448,10 @@ function screenAccuse(s) {
     orbCls: 'red',
     kicker: 'اليوم ' + s.round + ' — الاتهام',
     body: "<div class=\"huge\">\u0645\u0646 \u062A\u062A\u0647\u0645\u0648\u0646\u061F</div>\n      <div class=\"lead\">\u0643\u0644 \u0644\u0627\u0639\u0628 \u064A\u062A\u0647\u0645 \u0634\u062E\u0635\u0627\u064B \u0645\u0646 \u062C\u0648\u0627\u0644\u0647. \u0645\u0646 \u064A\u0627\u062E\u0630 \u0627\u062A\u0647\u0627\u0645\u064A\u0646 \u0623\u0648 \u0623\u0643\u062B\u0631 \u064A\u062F\u062E\u0644 \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629.</div>\n      ".concat(acc.some(function (t) {
-      return t.id !== -2;
+      return t.id !== SKIP;
     }) ? tallyHtml({
       tally: acc.filter(function (t) {
-        return t.id !== -2;
+        return t.id !== SKIP;
       })
     }) : "<div class=\"grid wide\">".concat(s.players.filter(function (p) {
       return p.alive;
@@ -464,7 +461,7 @@ function screenAccuse(s) {
         alive: true
       }, p.acted ? 'done' : '');
     }).join(''), "</div>"), "\n      <div class=\"bar\"><i style=\"width:").concat(pr.total ? Math.round(pr.done * 100 / pr.total) : 0, "%\"></i></div><div class=\"meta\">\u0627\u062A\u0647\u0645 ").concat(pr.done, " \u0645\u0646 ").concat(pr.total, "</div>"),
-    actions: actionButton('next', 'إنهاء الاتهام الآن', 'skip', "action('next')", 'sm ghost')
+    actions: actionButton('next', 'إنهاء الاتهام الآن', 'skip', "nextPhase()", 'sm ghost')
   });
 }
 function accusedTiles(s) {
@@ -476,7 +473,7 @@ function screenDefense(s) {
   return stage({
     kicker: icon('gavel') + ' المحاكمة — دفاع المتهمين',
     body: "<div class=\"countdown\" id=\"cd\"></div>".concat(accusedTiles(s), "\n      <div class=\"lead\">\u0643\u0644 \u0645\u062A\u0647\u0645 \u064A\u062F\u0627\u0641\u0639 \u0639\u0646 \u0646\u0641\u0633\u0647 \u0628\u0627\u0644\u062F\u0648\u0631. \u0628\u0639\u062F \u0627\u0644\u062F\u0641\u0627\u0639 \u064A\u0643\u0648\u0646 \u0627\u0644\u062A\u0635\u0648\u064A\u062A \u0628\u064A\u0646\u0647\u0645 \u0641\u0642\u0637.</div>"),
-    actions: actionButton('next', 'ابدأ التصويت', 'vote', "action('next')", 'primary', 'data-default')
+    actions: actionButton('next', 'ابدأ التصويت', 'vote', "nextPhase()", 'primary', 'data-default')
   });
 }
 function screenLastWords(s) {
@@ -486,7 +483,7 @@ function screenLastWords(s) {
     orbCls: 'red',
     kicker: 'الكلمة الأخيرة',
     body: "<div class=\"lead\">\u062D\u0643\u0645\u062A \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0639\u0644\u0649</div><div class=\"victim\">".concat(esc(lw.name), "</div>\n      <div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u0644\u0643 \u0627\u0644\u0643\u0644\u0645\u0629 \u0627\u0644\u0623\u062E\u064A\u0631\u0629 \u0642\u0628\u0644 \u062A\u0646\u0641\u064A\u0630 \u0627\u0644\u062D\u0643\u0645.</div>"),
-    actions: actionButton('next', 'نفّذ الحكم', 'gavel', "action('next')", 'primary', 'data-default')
+    actions: actionButton('next', 'نفّذ الحكم', 'gavel', "nextPhase()", 'primary', 'data-default')
   });
 }
 function screenVote(s) {
@@ -504,7 +501,7 @@ function screenVote(s) {
         alive: true
       }, p.acted ? 'done' : '');
     }).join(''), "</div>"), "\n      <div class=\"meta\">\u0635\u0648\u0651\u062A ").concat(pr.done, " \u0645\u0646 ").concat(pr.total, "</div>"),
-    actions: actionButton('next', 'إنهاء التصويت الآن', 'skip', "action('next')", 'sm ghost')
+    actions: actionButton('next', 'إنهاء التصويت الآن', 'skip', "nextPhase()", 'sm ghost')
   });
 }
 function tallyHtml(v) {
@@ -527,7 +524,7 @@ function screenVerdict(s) {
     orbCls: v.executed > 0 ? 'red' : 'white',
     kicker: 'نتيجة التصويت',
     body: body + tallyHtml(v),
-    actions: actionButton('next', 'الليلة التالية <span id="cd2"></span>', 'moon', "action('next')", '', 'data-default')
+    actions: actionButton('next', 'الليلة التالية <span id="cd2"></span>', 'moon', "nextPhase()", '', 'data-default')
   });
 }
 function screenOver(s) {
@@ -602,63 +599,70 @@ function tickClock() {
   var cd2 = $('#cd2');
   if (cd2) cd2.textContent = S.endsAt ? '(' + Math.max(0, Math.ceil(left / 1000)) + ')' : '';
 }
-function poll() {
-  return _poll.apply(this, arguments);
-}
-function _poll() {
-  _poll = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-    var s, sig;
-    return _regenerator().w(function (_context3) {
-      while (1) switch (_context3.n) {
-        case 0:
-          if (!(API.online && (!API.room() || !API.isHost()))) {
-            _context3.n = 1;
-            break;
+var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  var s, sig;
+  return _regenerator().w(function (_context) {
+    while (1) switch (_context.n) {
+      case 0:
+        if (!(API.online && (!API.room() || !API.isHost()))) {
+          _context.n = 1;
+          break;
+        }
+        showCreate();
+        return _context.a(2);
+      case 1:
+        _context.n = 2;
+        return API.tvState();
+      case 2:
+        s = _context.v;
+        if (!s.gone) {
+          _context.n = 3;
+          break;
+        }
+        API.setRoom('');
+        showCreate('انتهت الديوانية، أنشئ وحدة جديدة');
+        return _context.a(2);
+      case 3:
+        if (!s.network) {
+          _context.n = 4;
+          break;
+        }
+        return _context.a(2);
+      case 4:
+        if (!(s.ok === false)) {
+          _context.n = 5;
+          break;
+        }
+        // the server answered with a failure: say so on screen
+        if (s.error !== lastErr) {
+          lastErr = s.error || 'خطأ في السيرفر';
+          if (S) {
+            render.sig = null;
+            render(S);
           }
-          showCreate();
-          return _context3.a(2);
-        case 1:
-          _context3.n = 2;
-          return API.tvState();
-        case 2:
-          s = _context3.v;
-          if (!s.gone) {
-            _context3.n = 3;
-            break;
+        }
+        return _context.a(2);
+      case 5:
+        clockOffset = s.now - Date.now();
+        S = s;
+        Voices.prune(s.voices);
+        if (s.v !== lastV || s.phase === 'lobby') {
+          // the lobby also redraws when a phone goes on/offline
+          sig = JSON.stringify([s.v, s.players.map(function (p) {
+            return p.online;
+          }), s.url, lastErr]);
+          if (sig !== render.sig) {
+            render.sig = sig;
+            render(s);
           }
-          API.setRoom('');
-          showCreate('انتهت الديوانية، أنشئ وحدة جديدة');
-          return _context3.a(2);
-        case 3:
-          if (!(s.ok === false)) {
-            _context3.n = 4;
-            break;
-          }
-          return _context3.a(2);
-        case 4:
-          // server briefly unreachable; the next poll retries
-          clockOffset = s.now - Date.now();
-          S = s;
-          Voices.prune(s.voices);
-          if (s.v !== lastV || s.phase === 'lobby') {
-            // the lobby also redraws when a phone goes on/offline
-            sig = JSON.stringify([s.v, s.players.map(function (p) {
-              return p.online;
-            }), s.url, lastErr]);
-            if (sig !== render.sig) {
-              render.sig = sig;
-              render(s);
-            }
-            lastV = s.v;
-          }
-          tickClock();
-        case 5:
-          return _context3.a(2);
-      }
-    }, _callee3);
-  }));
-  return _poll.apply(this, arguments);
-}
+          lastV = s.v;
+        }
+        tickClock();
+      case 6:
+        return _context.a(2);
+    }
+  }, _callee);
+})));
 setInterval(poll, 800);
 setInterval(tickClock, 250);
 poll();

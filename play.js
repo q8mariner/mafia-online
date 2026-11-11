@@ -23,59 +23,57 @@ function join() {
   return _join.apply(this, arguments);
 }
 function _join() {
-  _join = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  _join = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
     var name, code, j;
-    return _regenerator().w(function (_context) {
-      while (1) switch (_context.n) {
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.n) {
         case 0:
           name = ($('#nameIn') || {}).value || '';
           if (!(API.online && !API.room())) {
-            _context.n = 2;
+            _context2.n = 2;
             break;
           }
-          code = (($('#codeIn') || {}).value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+          code = (($('#codeIn') || {}).value || '').trim();
           if (!(code.length < 4)) {
-            _context.n = 1;
+            _context2.n = 1;
             break;
           }
           err = 'اكتب كود الديوانية';
           render(true);
-          return _context.a(2);
+          return _context2.a(2);
         case 1:
           API.setRoom(code);
-          T = store.get(API.tokenKey());
+          T = store.get(API.tokenKey()); // setRoom cleans the code the same way the server does
         case 2:
           if (name.trim()) {
-            _context.n = 3;
+            _context2.n = 3;
             break;
           }
           err = 'اكتب اسمك أولاً';
           render(true);
-          return _context.a(2);
+          return _context2.a(2);
         case 3:
-          try {
-            localStorage.setItem('mafia_name', name.trim());
-          } catch (e) {}
-          _context.n = 4;
+          store.set('mafia_name', name.trim());
+          _context2.n = 4;
           return API.join(name, T || '');
         case 4:
-          j = _context.v;
+          j = _context2.v;
           if (!j.gone) {
-            _context.n = 5;
+            _context2.n = 5;
             break;
           }
           API.setRoom('');
           err = 'ما لقينا ديوانية بهالكود، تأكد منه';
           render(true);
-          return _context.a(2);
+          return _context2.a(2);
         case 5:
           if (!j.error) {
-            _context.n = 6;
+            _context2.n = 6;
             break;
           }
           err = j.error;
           render(true);
-          return _context.a(2);
+          return _context2.a(2);
         case 6:
           T = j.token;
           store.set(API.tokenKey(), T);
@@ -83,9 +81,9 @@ function _join() {
           lastV = -1;
           poll();
         case 7:
-          return _context.a(2);
+          return _context2.a(2);
       }
-    }, _callee);
+    }, _callee2);
   }));
   return _join.apply(this, arguments);
 }
@@ -93,30 +91,30 @@ function act(_x, _x2) {
   return _act.apply(this, arguments);
 }
 function _act() {
-  _act = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(a, target) {
+  _act = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(a, target) {
     var j;
-    return _regenerator().w(function (_context2) {
-      while (1) switch (_context2.n) {
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.n) {
         case 0:
           if (!busy) {
-            _context2.n = 1;
+            _context3.n = 1;
             break;
           }
-          return _context2.a(2);
+          return _context3.a(2);
         case 1:
           busy = true;
-          _context2.n = 2;
+          _context3.n = 2;
           return API.act(T, a, target);
         case 2:
-          j = _context2.v;
+          j = _context3.v;
           err = j.error || '';
           busy = false;
           lastV = -1;
           poll();
         case 3:
-          return _context2.a(2);
+          return _context3.a(2);
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _act.apply(this, arguments);
 }
@@ -126,9 +124,6 @@ function leave() {
   T = null;
   if (API.online) API.setRoom('');
 }
-var roleTag = function roleTag(r) {
-  return r ? "<span class=\"tag ".concat(r, "\">").concat(icon(R[r].i)).concat(R[r].n, "</span>") : '';
-};
 function roleCard(r, team, hint) {
   var x = R[r];
   var mates = isMafiaRole(r) ? "<div class=\"mates\">".concat(team && team.length ? 'زملاؤك في المافيا: <b>' + team.map(function (t) {
@@ -179,37 +174,34 @@ function detectiveNotes() {
 }
 
 // ---------------------------------------------------------------- views
-function viewJoin() {
-  var saved = '';
-  try {
-    saved = localStorage.getItem('mafia_name') || '';
-  } catch (e) {}
-  if (!S.canJoin) return "<div class=\"card center\"><div class=\"hero-ic\">".concat(icon('clock'), "</div><h2>\u0627\u0644\u0644\u0639\u0628\u0629 \u062C\u0627\u0631\u064A\u0629 \u0627\u0644\u0622\u0646</h2><p>\u0627\u0646\u062A\u0638\u0631 \u062D\u062A\u0649 \u062A\u0646\u062A\u0647\u064A \u0627\u0644\u062C\u0648\u0644\u0629 \u0648\u062A\u0639\u0648\u062F \u0635\u0627\u0644\u0629 \u0627\u0644\u0627\u0646\u062A\u0638\u0627\u0631\u060C \u062B\u0645 \u0627\u062F\u062E\u0644.</p></div>");
-  var room = S.room && S.room.name ? " \u0641\u064A <span class=\"red\">".concat(esc(S.room.name), "</span>") : '';
+function viewJoin(s) {
+  var saved = store.get('mafia_name') || '';
+  if (!s.canJoin) return "<div class=\"card center\"><div class=\"hero-ic\">".concat(icon('clock'), "</div><h2>\u0627\u0644\u0644\u0639\u0628\u0629 \u062C\u0627\u0631\u064A\u0629 \u0627\u0644\u0622\u0646</h2><p>\u0627\u0646\u062A\u0638\u0631 \u062D\u062A\u0649 \u062A\u0646\u062A\u0647\u064A \u0627\u0644\u062C\u0648\u0644\u0629 \u0648\u062A\u0639\u0648\u062F \u0635\u0627\u0644\u0629 \u0627\u0644\u0627\u0646\u062A\u0638\u0627\u0631\u060C \u062B\u0645 \u0627\u062F\u062E\u0644.</p></div>");
+  var room = s.room && s.room.name ? " \u0641\u064A <span class=\"red\">".concat(esc(s.room.name), "</span>") : '';
   var codeField = API.online && !API.room() ? "<label class=\"fl\" for=\"codeIn\">\u0643\u0648\u062F \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629</label>\n    <input class=\"input code\" id=\"codeIn\" maxlength=\"8\" autocomplete=\"off\" autocapitalize=\"characters\" dir=\"ltr\" placeholder=\"ABCDE\">" : '';
-  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon(isOnlineRoom() ? 'globe' : 'users'), " ").concat(isOnlineRoom() ? 'أونلاين' : S.room ? 'الديوانية' : 'الانضمام', "</span><h2>\u0623\u0647\u0644\u0627\u064B \u0628\u0643 \u0641\u064A \u0627\u0644\u0645\u0627\u0641\u064A\u0627").concat(room, "</h2>\n    <p>").concat(isOnlineRoom() ? 'اكتب اسمك وادخل، والنقاش يكون على المكالمة.' : 'اكتب اسمك ليظهر على شاشة التلفزيون.', "</p>").concat(codeField, "\n    <label class=\"fl\" for=\"nameIn\">\u0627\u0633\u0645\u0643</label>\n    <input class=\"input\" id=\"nameIn\" maxlength=\"16\" value=\"").concat(esc(saved), "\" autocomplete=\"off\" enterkeyhint=\"go\" onkeydown=\"if(event.key==='Enter')join()\">\n    <button class=\"btn primary\" onclick=\"join()\">").concat(icon('play'), "\u062F\u062E\u0648\u0644 \u0627\u0644\u0644\u0639\u0628\u0629</button><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>");
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon(isOnlineRoom() ? 'globe' : 'users'), " ").concat(isOnlineRoom() ? 'أونلاين' : s.room ? 'الديوانية' : 'الانضمام', "</span><h2>\u0623\u0647\u0644\u0627\u064B \u0628\u0643 \u0641\u064A \u0627\u0644\u0645\u0627\u0641\u064A\u0627").concat(room, "</h2>\n    <p>").concat(isOnlineRoom() ? 'اكتب اسمك وادخل، والنقاش يكون على المكالمة.' : 'اكتب اسمك ليظهر على شاشة التلفزيون.', "</p>").concat(codeField, "\n    <label class=\"fl\" for=\"nameIn\">\u0627\u0633\u0645\u0643</label>\n    <input class=\"input\" id=\"nameIn\" maxlength=\"16\" value=\"").concat(esc(saved), "\" autocomplete=\"off\" enterkeyhint=\"go\" onkeydown=\"if(event.key==='Enter')join()\">\n    <button class=\"btn primary\" onclick=\"join()\">").concat(icon('play'), "\u062F\u062E\u0648\u0644 \u0627\u0644\u0644\u0639\u0628\u0629</button><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>");
 }
-function viewLobby() {
-  return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('check'), "</div><div class=\"big\">\u0623\u0646\u062A \u062F\u0627\u062E\u0644</div><p>\u0627\u0646\u062A\u0638\u0631 \u062D\u062A\u0649 \u064A\u0628\u062F\u0623 \u0627\u0644\u0631\u0627\u0648\u064A \u0627\u0644\u0644\u0639\u0628\u0629").concat(API.online ? '' : ' من التلفزيون', ".</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646 \xB7 ").concat(S.players.length, "</span>\n    <div class=\"list\">").concat(S.players.map(function (p) {
+function viewLobby(s) {
+  return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('check'), "</div><div class=\"big\">\u0623\u0646\u062A \u062F\u0627\u062E\u0644</div><p>\u0627\u0646\u062A\u0638\u0631 \u062D\u062A\u0649 \u064A\u0628\u062F\u0623 \u0627\u0644\u0631\u0627\u0648\u064A \u0627\u0644\u0644\u0639\u0628\u0629").concat(API.online ? '' : ' من التلفزيون', ".</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646 \xB7 ").concat(s.players.length, "</span>\n    <div class=\"list\">").concat(s.players.map(function (p) {
     return choiceRow(p, false, {
       static: true,
-      cls: p.id === S.me.id ? 'me' : '',
-      note: p.id === S.me.id ? 'أنت' : ''
+      cls: p.id === s.me.id ? 'me' : '',
+      note: p.id === s.me.id ? 'أنت' : ''
     });
   }).join(''), "</div></div>\n    <button class=\"btn\" onclick=\"$('#rulesBtn').click()\">").concat(icon('book'), "\u0627\u0642\u0631\u0623 \u0637\u0631\u064A\u0642\u0629 \u0627\u0644\u0644\u0639\u0628 \u0648\u0627\u0644\u0623\u062F\u0648\u0627\u0631</button>\n    <button class=\"btn ghost\" onclick=\"leave()\">").concat(icon('logout'), "\u0627\u0644\u062E\u0631\u0648\u062C \u0645\u0646 \u0627\u0644\u0644\u0639\u0628\u0629</button>");
 }
-function viewReveal() {
-  return roleCard(S.me.role, S.team) + (S.me.ready ? "<div class=\"card center\" style=\"margin-top:14px\"><div class=\"big\">\u062C\u0627\u0647\u0632</div><p>\u0628\u0627\u0646\u062A\u0638\u0627\u0631 \u0628\u0627\u0642\u064A \u0627\u0644\u0644\u0627\u0639\u0628\u064A\u0646\u2026</p></div>" : "<button class=\"btn primary\" onclick=\"act('ready')\">".concat(icon('check'), "\u0642\u0631\u0623\u062A \u062F\u0648\u0631\u064A \u2014 \u062C\u0627\u0647\u0632</button>"));
+function viewReveal(s) {
+  return roleCard(s.me.role, s.team) + (s.me.ready ? "<div class=\"card center\" style=\"margin-top:14px\"><div class=\"big\">\u062C\u0627\u0647\u0632</div><p>\u0628\u0627\u0646\u062A\u0638\u0627\u0631 \u0628\u0627\u0642\u064A \u0627\u0644\u0644\u0627\u0639\u0628\u064A\u0646\u2026</p></div>" : "<button class=\"btn primary\" onclick=\"act('ready')\">".concat(icon('check'), "\u0642\u0631\u0623\u062A \u062F\u0648\u0631\u064A \u2014 \u062C\u0627\u0647\u0632</button>"));
 }
-function viewNight() {
-  var r = S.me.role,
-    pick = S.myPick,
-    alive = S.players.filter(function (p) {
+function viewNight(s) {
+  var r = s.me.role,
+    pick = s.myPick,
+    alive = s.players.filter(function (p) {
       return p.alive;
     });
-  var h = "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('moon'), " \u0627\u0644\u0644\u064A\u0644\u0629 ").concat(S.round, "</span>");
+  var h = "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('moon'), " \u0627\u0644\u0644\u064A\u0644\u0629 ").concat(s.round, "</span>");
   if (isMafiaRole(r)) {
-    var team = S.team || [];
+    var team = s.team || [];
     h += "<h2>\u0627\u062E\u062A\u0631 \u0636\u062D\u064A\u0629 \u0627\u0644\u0644\u064A\u0644\u0629</h2><p>\u062A\u064F\u062D\u062F\u064E\u0651\u062F \u0627\u0644\u0636\u062D\u064A\u0629 \u0628\u0623\u063A\u0644\u0628\u064A\u0629 \u0627\u062E\u062A\u064A\u0627\u0631 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u060C \u0648\u062A\u0631\u0649 \u0627\u062E\u062A\u064A\u0627\u0631 \u0632\u0645\u0644\u0627\u0626\u0643.</p><div class=\"list\">" + alive.filter(function (p) {
       return !isMafiaRole(p.role);
     }).map(function (p) {
@@ -226,27 +218,27 @@ function viewNight() {
       });
     }).join('') + "</div>";
   } else if (r === 'detective') {
-    var last = S.checks && S.checks.length ? S.checks[S.checks.length - 1] : null;
-    if (pick > 0 && last && last.round === S.round) {
+    var last = s.checks && s.checks.length ? s.checks[s.checks.length - 1] : null;
+    if (pick > 0 && last && last.round === s.round) {
       h += "<h2>\u0646\u062A\u064A\u062C\u0629 \u0627\u0644\u062A\u062D\u0642\u064A\u0642</h2><div class=\"result ".concat(last.mafia ? 'mafia' : '', "\">").concat(icon(last.mafia ? 'mafia' : 'check')).concat(esc(last.name), " ").concat(last.mafia ? 'من المافيا' : 'بريء', "</div>");
     } else {
       h += "<h2>\u0627\u062E\u062A\u0631 \u0644\u0627\u0639\u0628\u0627\u064B \u0644\u0644\u062A\u062D\u0642\u064A\u0642</h2><p>\u0633\u062A\u0639\u0631\u0641 \u0641\u0648\u0631\u0627\u064B \u0625\u0646 \u0643\u0627\u0646 \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627.</p><div class=\"list\">" + alive.filter(function (p) {
-        return p.id !== S.me.id;
+        return p.id !== s.me.id;
       }).map(function (p) {
         return choiceRow(p, false, {
           onclick: "act('night',".concat(p.id, ")")
         });
       }).join('') + "</div>";
     }
-  } else if (r === 'sniper' && S.bullet) {
-    var holding = pick === -2;
+  } else if (r === 'sniper' && s.bullet) {
+    var holding = pick === SKIP;
     h += "<h2>\u0631\u0635\u0627\u0635\u062A\u0643 \u0627\u0644\u0648\u062D\u064A\u062F\u0629</h2><p>\u0627\u062E\u062A\u0631 \u0645\u0646 \u062A\u0637\u0644\u0642 \u0639\u0644\u064A\u0647 \u0627\u0644\u0644\u064A\u0644\u0629\u060C \u0623\u0648 \u0627\u062D\u062A\u0641\u0638 \u0628\u0647\u0627 \u0644\u0644\u064A\u0644\u0629 \u062B\u0627\u0646\u064A\u0629. \u0644\u0648 \u0623\u0635\u0628\u062A \u0628\u0631\u064A\u0626\u0627\u064B \u064A\u0645\u0648\u062A.</p><div class=\"list\">" + choiceRow({
       name: 'أحتفظ بالرصاصة الليلة',
       icon: 'lock'
     }, holding, {
-      onclick: "act('night',-2)"
+      onclick: "act('night',SKIP)"
     }) + alive.filter(function (p) {
-      return p.id !== S.me.id;
+      return p.id !== s.me.id;
     }).map(function (p) {
       return choiceRow(p, pick === p.id, {
         kill: true,
@@ -255,7 +247,7 @@ function viewNight() {
     }).join('') + "</div>";
   } else if (r === 'guard') {
     h += "<h2>\u0645\u0646 \u062A\u062D\u0631\u0633 \u0627\u0644\u0644\u064A\u0644\u0629\u061F</h2><p>\u0644\u0648 \u0647\u0627\u062C\u0645\u062A\u0647 \u0627\u0644\u0645\u0627\u0641\u064A\u0627 \u062A\u0645\u0648\u062A \u0623\u0646\u062A \u0628\u062F\u0627\u0644\u0647 \u0648\u0647\u0648 \u064A\u0646\u062C\u0648.</p><div class=\"list\">" + alive.filter(function (p) {
-      return p.id !== S.me.id;
+      return p.id !== s.me.id;
     }).map(function (p) {
       return choiceRow(p, pick === p.id, {
         onclick: "act('night',".concat(p.id, ")")
@@ -265,26 +257,26 @@ function viewNight() {
     h += "<h2>\u0627\u062E\u062A\u0631 \u0645\u0646 \u062A\u062D\u0645\u064A\u0647 \u0627\u0644\u0644\u064A\u0644\u0629</h2><p>\u062A\u0633\u062A\u0637\u064A\u0639 \u062D\u0645\u0627\u064A\u0629 \u0646\u0641\u0633\u0643.</p><div class=\"list\">" + alive.map(function (p) {
       return choiceRow(p, pick === p.id, {
         onclick: "act('night',".concat(p.id, ")"),
-        disabled: p.id === S.lastProtected,
-        note: p.id === S.lastProtected ? 'حميته الليلة الماضية' : p.id === S.me.id ? 'أنت' : ''
+        disabled: p.id === s.lastProtected,
+        note: p.id === s.lastProtected ? 'حميته الليلة الماضية' : p.id === s.me.id ? 'أنت' : ''
       });
     }).join('') + "</div>";
   } else {
     var why = r === 'sniper' ? 'استخدمت رصاصتك؛ اختيارك الآن للتمويه فقط.' : r === 'spy' ? 'للتمويه فقط؛ ما تسمعه من المافيا يصلك في الصباح.' : r === 'mayor' ? 'للتمويه فقط؛ قوتك تظهر في التصويت النهائي.' : 'للتمويه فقط، حتى لا يعرف أحد أنك مواطن عادي.';
     h += "<h2>\u0627\u062E\u062A\u0631 \u0645\u0646 \u062A\u0634\u0643 \u0641\u064A\u0647</h2><p>".concat(why, "</p><div class=\"list\">") + alive.filter(function (p) {
-      return p.id !== S.me.id;
+      return p.id !== s.me.id;
     }).map(function (p) {
       return choiceRow(p, pick === p.id, {
         onclick: "act('night',".concat(p.id, ")")
       });
     }).join('') + "</div>";
   }
-  if (pick > 0 || pick === -2) h += "<div class=\"prog\">".concat(icon('check'), "\u062A\u0645 \u062A\u0633\u062C\u064A\u0644 \u0627\u062E\u062A\u064A\u0627\u0631\u0643").concat(r !== 'detective' ? '، ويمكنك تغييره قبل نهاية الليل' : '', "</div>");
+  if (pick > 0 || pick === SKIP) h += "<div class=\"prog\">".concat(icon('check'), "\u062A\u0645 \u062A\u0633\u062C\u064A\u0644 \u0627\u062E\u062A\u064A\u0627\u0631\u0643").concat(r !== 'detective' ? '، ويمكنك تغييره قبل نهاية الليل' : '', "</div>");
   h += "<div class=\"err\" role=\"alert\">".concat(esc(err), "</div></div>");
   return h + checksHtml();
 }
-function viewMorning() {
-  var victims = (S.morning || {}).victims || [];
+function viewMorning(s) {
+  var victims = (s.morning || {}).victims || [];
   var names = victims.map(function (v) {
     return "<span class=\"red\">".concat(esc(v.name), "</span>");
   }).join(' و ');
@@ -305,41 +297,53 @@ function recStart() {
   return _recStart.apply(this, arguments);
 }
 function _recStart() {
-  _recStart = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+  _recStart = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
     var type, _t;
-    return _regenerator().w(function (_context3) {
-      while (1) switch (_context3.p = _context3.n) {
+    return _regenerator().w(function (_context4) {
+      while (1) switch (_context4.p = _context4.n) {
         case 0:
           if (!(Rec.state !== 'idle')) {
-            _context3.n = 1;
+            _context4.n = 1;
             break;
           }
-          return _context3.a(2);
+          return _context4.a(2);
         case 1:
           if (!(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder)) {
-            _context3.n = 2;
+            _context4.n = 2;
             break;
           }
           err = 'متصفح جوالك ما يدعم التسجيل؛ جرّب كروم أو سفاري محدّث';
           render(true);
-          return _context3.a(2);
+          return _context4.a(2);
         case 2:
-          _context3.p = 2;
-          _context3.n = 3;
+          Rec.state = 'starting'; // a second tap while the browser asks for the microphone does nothing
+          _context4.p = 3;
+          _context4.n = 4;
           return navigator.mediaDevices.getUserMedia({
             audio: true
           });
-        case 3:
-          Rec.stream = _context3.v;
-          _context3.n = 5;
-          break;
         case 4:
-          _context3.p = 4;
-          _t = _context3.v;
+          Rec.stream = _context4.v;
+          _context4.n = 6;
+          break;
+        case 5:
+          _context4.p = 5;
+          _t = _context4.v;
+          Rec.state = 'idle';
           err = 'لازم تسمح للمتصفح يستخدم المايك';
           render(true);
-          return _context3.a(2);
-        case 5:
+          return _context4.a(2);
+        case 6:
+          if (!(Rec.state !== 'starting')) {
+            _context4.n = 7;
+            break;
+          }
+          Rec.stream.getTracks().forEach(function (t) {
+            return t.stop();
+          });
+          return _context4.a(2);
+        case 7:
+          // the discussion ended meanwhile
           type = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm', 'audio/ogg'].find(function (t) {
             return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t);
           });
@@ -363,14 +367,18 @@ function _recStart() {
           err = '';
           Rec.timer = setTimeout(recStop, REC_MAX_MS);
           render(true);
-        case 6:
-          return _context3.a(2);
+        case 8:
+          return _context4.a(2);
       }
-    }, _callee3, null, [[2, 4]]);
+    }, _callee4, null, [[3, 5]]);
   }));
   return _recStart.apply(this, arguments);
 }
 function recStop(discard) {
+  if (discard && Rec.state === 'starting') {
+    Rec.state = 'idle';
+    return;
+  } // recStart drops the stream when it arrives
   if (Rec.state !== 'rec') return;
   Rec.discard = !!discard;
   clearTimeout(Rec.timer);
@@ -389,17 +397,17 @@ function recUpload() {
   return _recUpload.apply(this, arguments);
 }
 function _recUpload() {
-  _recUpload = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+  _recUpload = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
     var ms, blob, r, _t2;
-    return _regenerator().w(function (_context4) {
-      while (1) switch (_context4.n) {
+    return _regenerator().w(function (_context5) {
+      while (1) switch (_context5.n) {
         case 0:
           if (!Rec.discard) {
-            _context4.n = 1;
+            _context5.n = 1;
             break;
           }
           Rec.chunks = [];
-          return _context4.a(2);
+          return _context5.a(2);
         case 1:
           ms = Math.min(REC_MAX_MS, Date.now() - Rec.started);
           blob = new Blob(Rec.chunks, {
@@ -407,20 +415,20 @@ function _recUpload() {
           });
           Rec.chunks = [];
           if (!(ms < 800)) {
-            _context4.n = 2;
+            _context5.n = 2;
             break;
           }
           _t2 = {
             ok: false,
             error: 'التسجيل قصير جداً'
           };
-          _context4.n = 4;
+          _context5.n = 4;
           break;
         case 2:
-          _context4.n = 3;
+          _context5.n = 3;
           return API.sendVoice(T, blob, ms);
         case 3:
-          _t2 = _context4.v;
+          _t2 = _context5.v;
         case 4:
           r = _t2;
           Rec.state = 'idle';
@@ -429,9 +437,9 @@ function _recUpload() {
           render(true);
           poll();
         case 5:
-          return _context4.a(2);
+          return _context5.a(2);
       }
-    }, _callee4);
+    }, _callee5);
   }));
   return _recUpload.apply(this, arguments);
 }
@@ -446,22 +454,22 @@ function voiceCard() {
     });
   var ctl = '';
   if (S.me.alive) {
-    if (Rec.state === 'rec') ctl = "<button class=\"btn primary rec\" onclick=\"recStop()\">".concat(icon('stop'), "\u0625\u064A\u0642\u0627\u0641 \u0648\u0625\u0631\u0633\u0627\u0644 <span id=\"reccd\"></span></button>");else if (Rec.state === 'sending') ctl = "<button class=\"btn\" disabled>".concat(icon('clock'), "\u062C\u0627\u0631\u064A \u0627\u0644\u0625\u0631\u0633\u0627\u0644\u2026</button>");else ctl = "<button class=\"btn ".concat(mine ? '' : 'primary', "\" onclick=\"recStart()\">").concat(icon('mic')).concat(mine ? 'سجّل من جديد' : 'سجّل رسالتك (دقيقة)', "</button>\n      ").concat(mine ? "<div class=\"prog\">".concat(icon('check'), "\u0631\u0633\u0627\u0644\u062A\u0643 \u0648\u0635\u0644\u062A \u0644\u0644\u0643\u0644</div>") : '');
+    if (Rec.state === 'rec') ctl = "<button class=\"btn primary rec\" onclick=\"recStop()\">".concat(icon('stop'), "\u0625\u064A\u0642\u0627\u0641 \u0648\u0625\u0631\u0633\u0627\u0644 <span id=\"reccd\"></span></button>");else if (Rec.state === 'sending') ctl = "<button class=\"btn\" disabled>".concat(icon('clock'), "\u062C\u0627\u0631\u064A \u0627\u0644\u0625\u0631\u0633\u0627\u0644\u2026</button>");else if (Rec.state === 'starting') ctl = "<button class=\"btn\" disabled>".concat(icon('mic'), "\u062C\u0627\u0631\u064A \u062A\u0634\u063A\u064A\u0644 \u0627\u0644\u0645\u0627\u064A\u0643\u2026</button>");else ctl = "<button class=\"btn ".concat(mine ? '' : 'primary', "\" onclick=\"recStart()\">").concat(icon('mic')).concat(mine ? 'سجّل من جديد' : 'سجّل رسالتك (دقيقة)', "</button>\n      ").concat(mine ? "<div class=\"prog\">".concat(icon('check'), "\u0631\u0633\u0627\u0644\u062A\u0643 \u0648\u0635\u0644\u062A \u0644\u0644\u0643\u0644</div>") : '');
   }
   return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('mic'), " \u0631\u0633\u0627\u0626\u0644 \u0627\u0644\u0646\u0642\u0627\u0634 \u0627\u0644\u0635\u0648\u062A\u064A\u0629</span>\n    ").concat(S.me.alive ? '<p>كل واحد له رسالة وحدة لين دقيقة. تنمسح كلها أول ما يخلص النقاش.</p>' : '').concat(ctl, "\n    <div class=\"err\" role=\"alert\">").concat(esc(err), "</div>\n    <div class=\"vlist\">").concat(list.length ? Voices.html(list) : '<p class="small">ما في رسائل للحين.</p>', "</div></div>");
 }
-function viewDiscuss() {
-  return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('chat'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span><div class=\"huge\" id=\"cd\"></div><p>\u0646\u0627\u0642\u0634\u0648\u0627 ").concat(isOnlineRoom() ? 'على المكالمة' : 'بصوت عالٍ', ": \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</p></div>\n    ").concat(voiceCard(), "\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</span><div class=\"list\">").concat(S.players.map(function (p) {
+function viewDiscuss(s) {
+  return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('chat'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span><div class=\"huge\" id=\"cd\"></div><p>\u0646\u0627\u0642\u0634\u0648\u0627 ").concat(isOnlineRoom() ? 'على المكالمة' : 'بصوت عالٍ', ": \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</p></div>\n    ").concat(voiceCard(), "\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</span><div class=\"list\">").concat(s.players.map(function (p) {
     return choiceRow(p, false, {
       static: true,
       cls: p.alive ? '' : 'dead'
     });
   }).join(''), "</div></div>") + checksHtml();
 }
-function viewAccuse() {
-  var my = S.myAccuse;
-  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('hand'), " \u0627\u0644\u0627\u062A\u0647\u0627\u0645</span><h2>\u0645\u0646 \u062A\u062A\u0647\u0645\u061F</h2><p>\u0645\u0646 \u064A\u0627\u062E\u0630 \u0627\u062A\u0647\u0627\u0645\u064A\u0646 \u0623\u0648 \u0623\u0643\u062B\u0631 \u064A\u062F\u062E\u0644 \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629. \u062A\u0642\u062F\u0631 \u062A\u063A\u064A\u0651\u0631 \u0627\u062A\u0647\u0627\u0645\u0643 \u062D\u062A\u0649 \u064A\u062A\u0647\u0645 \u0627\u0644\u062C\u0645\u064A\u0639.</p><div class=\"list\">") + S.players.filter(function (p) {
-    return p.alive && p.id !== S.me.id;
+function viewAccuse(s) {
+  var my = s.myAccuse;
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('hand'), " \u0627\u0644\u0627\u062A\u0647\u0627\u0645</span><h2>\u0645\u0646 \u062A\u062A\u0647\u0645\u061F</h2><p>\u0645\u0646 \u064A\u0627\u062E\u0630 \u0627\u062A\u0647\u0627\u0645\u064A\u0646 \u0623\u0648 \u0623\u0643\u062B\u0631 \u064A\u062F\u062E\u0644 \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629. \u062A\u0642\u062F\u0631 \u062A\u063A\u064A\u0651\u0631 \u0627\u062A\u0647\u0627\u0645\u0643 \u062D\u062A\u0649 \u064A\u062A\u0647\u0645 \u0627\u0644\u062C\u0645\u064A\u0639.</p><div class=\"list\">") + s.players.filter(function (p) {
+    return p.alive && p.id !== s.me.id;
   }).map(function (p) {
     return choiceRow(p, my === p.id, {
       kill: true,
@@ -470,9 +478,9 @@ function viewAccuse() {
   }).join('') + choiceRow({
     name: 'لا أتهم أحداً',
     icon: 'minus'
-  }, my === -2, {
-    onclick: "act('accuse',-2)"
-  }) + "</div><div class=\"prog\">".concat(icon('users'), "\u0627\u062A\u0647\u0645 ").concat(S.voted, " \u0645\u0646 ").concat(S.voters, "</div><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>") + checksHtml();
+  }, my === SKIP, {
+    onclick: "act('accuse',SKIP)"
+  }) + "</div><div class=\"prog\">".concat(icon('users'), "\u0627\u062A\u0647\u0645 ").concat(s.voted, " \u0645\u0646 ").concat(s.voters, "</div><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>") + checksHtml();
 }
 function accusedList() {
   return "<div class=\"list\">".concat((S.candidates || []).map(function (c) {
@@ -483,26 +491,26 @@ function accusedList() {
     });
   }).join(''), "</div>");
 }
-function viewDefense() {
-  var mine = (S.candidates || []).some(function (c) {
-    return c.id === S.me.id;
+function viewDefense(s) {
+  var mine = (s.candidates || []).some(function (c) {
+    return c.id === s.me.id;
   });
   return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('gavel'), " \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629</span><div class=\"huge\" id=\"cd\"></div>\n    <div class=\"big ").concat(mine ? 'red' : '', "\">").concat(mine ? 'أنت متهم! دافع عن نفسك' : 'استمعوا لدفاع المتهمين', "</div></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0645\u062A\u0647\u0645\u0648\u0646</span>").concat(accusedList(), "</div>") + checksHtml();
 }
-function viewLastWords() {
-  var lw = S.lastWords || {},
-    me = lw.id === S.me.id;
+function viewLastWords(s) {
+  var lw = s.lastWords || {},
+    me = lw.id === s.me.id;
   return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('chat'), "</div>\n    <div class=\"big\">").concat(me ? 'هذه كلمتك الأخيرة' : 'الكلمة الأخيرة لـ <span class="red">' + esc(lw.name) + '</span>', "</div>\n    <div class=\"huge\" id=\"cd\"></div><p>").concat(me ? 'قل اللي تبيه قبل الإعدام.' : 'استمعوا… بعدها يُنفّذ الحكم.', "</p></div>") + checksHtml();
 }
-function viewVote() {
-  var my = S.myVote,
-    trial = (S.candidates || []).length > 0;
-  var options = trial ? S.candidates.filter(function (c) {
-    return c.id !== S.me.id;
-  }) : S.players.filter(function (p) {
-    return p.alive && p.id !== S.me.id;
+function viewVote(s) {
+  var my = s.myVote,
+    trial = (s.candidates || []).length > 0;
+  var options = trial ? s.candidates.filter(function (c) {
+    return c.id !== s.me.id;
+  }) : s.players.filter(function (p) {
+    return p.alive && p.id !== s.me.id;
   });
-  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('vote'), " ").concat(trial ? 'التصويت النهائي' : 'التصويت', "</span><h2>").concat(trial ? 'من يُعدم من المتهمين؟' : 'من تشك أنه مافيا؟', "</h2>\n    <p>\u064A\u0645\u0643\u0646\u0643 \u062A\u063A\u064A\u064A\u0631 \u0635\u0648\u062A\u0643 \u062D\u062A\u0649 \u064A\u0635\u0648\u0651\u062A \u0627\u0644\u062C\u0645\u064A\u0639.").concat(S.weight > 1 ? ' <b class="red">أنت العمدة: صوتك بصوتين.</b>' : '', "</p><div class=\"list\">") + options.map(function (p) {
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('vote'), " ").concat(trial ? 'التصويت النهائي' : 'التصويت', "</span><h2>").concat(trial ? 'من يُعدم من المتهمين؟' : 'من تشك أنه مافيا؟', "</h2>\n    <p>\u064A\u0645\u0643\u0646\u0643 \u062A\u063A\u064A\u064A\u0631 \u0635\u0648\u062A\u0643 \u062D\u062A\u0649 \u064A\u0635\u0648\u0651\u062A \u0627\u0644\u062C\u0645\u064A\u0639.").concat(s.weight > 1 ? ' <b class="red">أنت العمدة: صوتك بصوتين.</b>' : '', "</p><div class=\"list\">") + options.map(function (p) {
     return choiceRow(p, my === p.id, {
       kill: true,
       onclick: "act('vote',".concat(p.id, ")"),
@@ -511,21 +519,21 @@ function viewVote() {
   }).join('') + choiceRow({
     name: 'امتناع عن التصويت',
     icon: 'minus'
-  }, my === -2, {
-    onclick: "act('vote',-2)"
-  }) + "</div><div class=\"prog\">".concat(icon('users'), "\u0635\u0648\u0651\u062A ").concat(S.voted, " \u0645\u0646 ").concat(S.voters, "</div><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>") + checksHtml();
+  }, my === SKIP, {
+    onclick: "act('vote',SKIP)"
+  }) + "</div><div class=\"prog\">".concat(icon('users'), "\u0635\u0648\u0651\u062A ").concat(s.voted, " \u0645\u0646 ").concat(s.voters, "</div><div class=\"err\" role=\"alert\">").concat(esc(err), "</div></div>") + checksHtml();
 }
-function viewVerdict() {
-  var v = S.verdict || {},
+function viewVerdict(s) {
+  var v = s.verdict || {},
     r = v.executedRole;
   return "<div class=\"card center\"><div class=\"hero-ic ".concat(v.executed > 0 ? 'red' : '', "\">").concat(icon('gavel'), "</div>") + (v.executed > 0 ? "<div class=\"big\">\u062A\u0645 \u0625\u0639\u062F\u0627\u0645 ".concat(esc(v.executedName), "</div>") + (r ? "<div class=\"result ".concat(isMafiaRole(r) ? 'mafia' : '', "\">").concat(icon(R[r].i)).concat(r === 'mafia' ? 'كان من المافيا' : r === 'godfather' ? 'كان العرّاب' : 'كان ' + R[r].n + ' بريئاً', "</div>") : "<div class=\"result\">".concat(icon('lock'), "\u062F\u0648\u0631\u0647 \u064A\u0628\u0642\u0649 \u0633\u0631</div>")) : "<div class=\"big\">".concat(v.noTrial ? 'لا محاكمة اليوم' : v.tie ? 'تعادل — لا إعدام' : 'لم يُعدم أحد', "</div>")) + "<p style=\"margin-top:12px\">\u0627\u0633\u062A\u0639\u062F\u0648\u0627\u2026 \u0627\u0644\u0644\u064A\u0644 \u0642\u0627\u062F\u0645.</p></div>" + checksHtml();
 }
-function viewOver() {
-  var w = S.winner,
-    r = S.me.role;
+function viewOver(s) {
+  var w = s.winner,
+    r = s.me.role;
   var won = w === 'mafia' ? isMafiaRole(r) : !isMafiaRole(r);
   var title = w === 'mafia' ? 'فازت المافيا' : 'فاز الأبرياء';
-  return "<div class=\"card center\"><div class=\"hero-ic ".concat(won ? 'red' : '', "\">").concat(icon(won ? 'trophy' : 'skull'), "</div>\n    <div class=\"big ").concat(w !== 'town' ? 'red' : '', "\">").concat(title, "</div><p>").concat(won ? 'مبروك، فريقك فاز.' : 'خسرت هذه المرة.', "</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0623\u062F\u0648\u0627\u0631</span><div class=\"list\">").concat(S.players.map(function (p) {
+  return "<div class=\"card center\"><div class=\"hero-ic ".concat(won ? 'red' : '', "\">").concat(icon(won ? 'trophy' : 'skull'), "</div>\n    <div class=\"big ").concat(w !== 'town' ? 'red' : '', "\">").concat(title, "</div><p>").concat(won ? 'مبروك، فريقك فاز.' : 'خسرت هذه المرة.', "</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0623\u062F\u0648\u0627\u0631</span><div class=\"list\">").concat(s.players.map(function (p) {
     return choiceRow(p, false, {
       static: true,
       cls: p.alive ? '' : 'dead'
@@ -553,7 +561,7 @@ function render(force) {
   document.body.className = ph === 'night' ? 'night' : '';
   $('#meName').textContent = S.me ? S.me.name : '';
   $('#peekBtn').classList.toggle('hidden', !(S.me && S.me.role && ph !== 'reveal'));
-  var h = (VIEWS[ph] || viewJoin)();
+  var h = (VIEWS[ph] || viewJoin)(S);
   if (S.me && !S.me.alive && ph !== 'over') h = "<div class=\"dead-banner\">".concat(icon('skull'), "\u0623\u0646\u062A \u062E\u0627\u0631\u062C \u0627\u0644\u0644\u0639\u0628\u0629 \u2014 \u0644\u0627 \u062A\u062A\u0643\u0644\u0645 \u0648\u0644\u0627 \u062A\u0644\u0645\u0651\u062D \u0644\u0623\u062D\u062F</div>") + h;
   $('#view').innerHTML = h;
   if (!S.me && covered) setCover(false);
@@ -569,70 +577,70 @@ function tickClock() {
   if (!cd || !S) return;
   cd.textContent = fmt(S.endsAt ? S.endsAt - (Date.now() + clockOffset) : 0);
 }
-function poll() {
-  return _poll.apply(this, arguments);
-} // ---------------------------------------------------------------- privacy cover
-function _poll() {
-  _poll = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-    var s, phaseChanged;
-    return _regenerator().w(function (_context5) {
-      while (1) switch (_context5.n) {
-        case 0:
-          _context5.n = 1;
-          return API.me(T);
-        case 1:
-          s = _context5.v;
-          if (!s.gone) {
-            _context5.n = 2;
-            break;
-          }
-          API.setRoom('');
-          T = null;
-          err = 'انتهت الديوانية أو الكود غلط';
-          S = {
-            phase: 'nojoin',
-            canJoin: true,
-            needRoom: true,
-            v: 0
-          };
-          lastPhase = 'nojoin';
-          render(true);
-          return _context5.a(2);
-        case 2:
-          if (!(s.ok === false)) {
-            _context5.n = 3;
-            break;
-          }
-          if (++fails > 2) $('#conn').textContent = 'انقطع الاتصال بالتلفزيون… تأكد أنك على نفس الواي فاي';
-          return _context5.a(2);
-        case 3:
-          fails = 0;
-          $('#conn').textContent = '';
-          clockOffset = (s.now || Date.now()) - Date.now();
-          phaseChanged = s.phase !== lastPhase;
-          S = s;
-          if (phaseChanged) {
-            err = '';
-            closePeek();
-            if (s.phase !== 'discuss') recStop(true); // the discussion is over: a recording in progress is dropped
-            if (s.me && lastPhase !== 'nojoin') setCover(true);
-            if (lastPhase && navigator.vibrate) try {
-              navigator.vibrate(s.phase === 'night' ? [80, 60, 80] : 60);
-            } catch (e) {}
-          }
-          Voices.prune(s.voices);
-          if (s.v !== lastV || phaseChanged) {
-            render(phaseChanged);
-            lastV = s.v;
-          }
-          lastPhase = s.phase;
-        case 4:
-          return _context5.a(2);
-      }
-    }, _callee5);
-  }));
-  return _poll.apply(this, arguments);
-}
+var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  var s, phaseChanged;
+  return _regenerator().w(function (_context) {
+    while (1) switch (_context.n) {
+      case 0:
+        _context.n = 1;
+        return API.me(T);
+      case 1:
+        s = _context.v;
+        if (!s.gone) {
+          _context.n = 2;
+          break;
+        }
+        API.setRoom('');
+        T = null;
+        err = 'انتهت الديوانية أو الكود غلط';
+        S = API.noRoomView();
+        lastPhase = 'nojoin';
+        render(true);
+        return _context.a(2);
+      case 2:
+        if (!s.network) {
+          _context.n = 3;
+          break;
+        }
+        // unreachable: retried every second, reported only when it lasts
+        if (++fails > 2) $('#conn').textContent = API.online ? 'انقطع الاتصال… تأكد من الإنترنت' : 'انقطع الاتصال بالتلفزيون… تأكد أنك على نفس الواي فاي';
+        return _context.a(2);
+      case 3:
+        fails = 0;
+        $('#conn').textContent = '';
+        if (!(s.ok === false)) {
+          _context.n = 4;
+          break;
+        }
+        $('#conn').textContent = s.error || 'خطأ في السيرفر';
+        return _context.a(2);
+      case 4:
+        // the server answered with a failure
+        clockOffset = (s.now || Date.now()) - Date.now();
+        phaseChanged = s.phase !== lastPhase;
+        S = s;
+        if (phaseChanged) {
+          err = '';
+          closePeek();
+          if (s.phase !== 'discuss') recStop(true); // the discussion is over: a recording in progress is dropped
+          if (s.me && lastPhase !== 'nojoin') setCover(true);
+          if (lastPhase && navigator.vibrate) try {
+            navigator.vibrate(s.phase === 'night' ? [80, 60, 80] : 60);
+          } catch (e) {}
+        }
+        Voices.prune(s.voices);
+        if (s.v !== lastV || phaseChanged) {
+          render(phaseChanged);
+          lastV = s.v;
+        }
+        lastPhase = s.phase;
+      case 5:
+        return _context.a(2);
+    }
+  }, _callee);
+})));
+
+// ---------------------------------------------------------------- privacy cover
 var COVER_IDLE_MS = 25000;
 var covered = false,
   lastTouch = Date.now();
