@@ -1,0 +1,1 @@
+window.MAFIA_ONLINE = {"fn":"https://zhmrclilgvipnllniryj.supabase.co/functions/v1/mafia","rest":"https://zhmrclilgvipnllniryj.supabase.co/rest/v1","pages":"https://q8mariner.github.io/mafia-online/","key":"sb_publishable_4YFaFqxfrHxq452JCvg5iQ_5rA92o-m"};
