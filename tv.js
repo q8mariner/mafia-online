@@ -1,13 +1,13 @@
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var r, e, o = "function" == typeof Symbol ? Symbol : {}, n = o.iterator || "@@iterator", a = o.toStringTag || "@@toStringTag"; function i(o, n, a, i) { var u = n && n.prototype instanceof Generator ? n : Generator, f = Object.create(u.prototype); return _regeneratorDefine2(f, "_invoke", function (t, o, n) { var a, i, u, f = 0, p = n || [], y = !1, G = { p: 0, n: 0, v: r, a: l, f: l.bind(r, 4), d: function d(t, e) { return a = t, i = 0, u = r, G.n = e, c; } }; function l(t, o) { for (i = t, u = o, e = 0; !y && f && !n && e < p.length; e++) { var n, a = p[e], l = G.p, F = a[2]; t > 3 ? (n = F === o) && (u = a[(i = a[4]) ? 5 : (i = 3, 3)], a[4] = a[5] = r) : a[0] <= l && ((n = t < 2 && l < a[1]) ? (i = 0, G.v = o, G.n = a[1]) : l < F && (n = t < 3 || a[0] > o || o > F) && (a[4] = t, a[5] = o, G.n = F, i = 0)); } if (n || t > 1) return c; throw y = !0, o; } return function (n, p, F) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && l(p, F), i = p, u = F; (e = i < 2 ? r : u) || !y;) { a || (i ? i < 3 ? (i > 1 && (G.n = -1), l(i, u)) : G.n = u : G.v = u); try { if (f = 2, a) { if (i || (n = "next"), e = a[n]) { if (!(e = e.call(a, u))) throw TypeError("iterator result is not an object"); if (!e.done) return e; u = e.value, i < 2 && (i = 0); } else 1 === i && (e = a.return) && e.call(a), i < 2 && (u = TypeError("The iterator does not provide a '" + n + "' method"), i = 1); a = r; } else if ((e = (y = G.n < 0) ? u : t.call(o, G)) !== c) break; } catch (t) { a = r, i = 1, u = t; } finally { f = 1; } } return { value: e, done: y }; }; }(o, a, i), !0), f; } var c = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} e = Object.getPrototypeOf; var u = [][n] ? e(e([][n]())) : (_regeneratorDefine2(e = {}, n, function () { return this; }), e), f = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(u); function p(r) { return Object.setPrototypeOf ? Object.setPrototypeOf(r, GeneratorFunctionPrototype) : (r.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(r, a, "GeneratorFunction")), r.prototype = Object.create(f), r; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(f, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, a, "GeneratorFunction"), _regeneratorDefine2(f), _regeneratorDefine2(f, a, "Generator"), _regeneratorDefine2(f, n, function () { return this; }), _regeneratorDefine2(f, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: p }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _createForOfIteratorHelper(e, t) { var _n = "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"]; if (!_n) { if (Array.isArray(e) || (_n = _unsupportedIterableToArray(e)) || t && e && "number" == typeof e.length) { _n && (e = _n); var o = 0, F = function F() {}; return { s: F, n: function n() { return o >= e.length ? { done: !0 } : { done: !1, value: e[o++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var a, u, i = !0; return { s: function s() { _n = _n.call(e); }, n: function n() { i = !0; var r = _n.next(); return r.done ? { done: !0 } : { value: r.value, done: i = !1 }; }, e: function e(r) { a = !0, u = r; }, f: function f() { try { i || null == _n.return || _n.return(); } finally { if (a) throw u; } } }; }
 function _slicedToArray(e, i) { return _iterableToArrayLimit(e, i) || _unsupportedIterableToArray(e, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(t, e) { if (t) { if ("string" == typeof t) return _arrayLikeToArray(t, e); var o = {}.toString.call(t).slice(8, -1); return "Object" === o && t.constructor && (o = t.constructor.name), "Map" === o || "Set" === o ? Array.from(t) : "Arguments" === o || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(o) ? _arrayLikeToArray(t, e) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, t) { var e = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (Array.isArray(r) && (null == e || e === ("undefined" != typeof Symbol && [][Symbol.iterator]) || e === []["@@iterator"])) return r; if (null != e) { var l, n, i, a, u = [], o = !0, f = !1; try { if (i = (e = e.call(r)).next, 0 === t) { if (Object(e) !== e) return; o = !1; } else for (; !(o = (l = i.call(e)).done) && (u.push(l.value), u.length !== t); o = !0); } catch (r) { f = !0, n = r; } finally { try { if (!o && null != e.return && (a = e.return(), Object(a) !== a)) return; } finally { if (f) throw n; } } return u; } }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-function _createForOfIteratorHelper(e, t) { var _n = "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"]; if (!_n) { if (Array.isArray(e) || (_n = _unsupportedIterableToArray(e)) || t && e && "number" == typeof e.length) { _n && (e = _n); var o = 0, F = function F() {}; return { s: F, n: function n() { return o >= e.length ? { done: !0 } : { done: !1, value: e[o++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var a, u, i = !0; return { s: function s() { _n = _n.call(e); }, n: function n() { i = !0; var r = _n.next(); return r.done ? { done: !0 } : { value: r.value, done: i = !1 }; }, e: function e(r) { a = !0, u = r; }, f: function f() { try { i || null == _n.return || _n.return(); } finally { if (a) throw u; } } }; }
-function _unsupportedIterableToArray(t, e) { if (t) { if ("string" == typeof t) return _arrayLikeToArray(t, e); var o = {}.toString.call(t).slice(8, -1); return "Object" === o && t.constructor && (o = t.constructor.name), "Map" === o || "Set" === o ? Array.from(t) : "Arguments" === o || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(o) ? _arrayLikeToArray(t, e) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 // Narrator screen (runs in the app's WebView on the TV). Needs ui.js and rules.js.
 var R = ROLE_INFO;
 var S = null,
@@ -26,80 +26,9 @@ $('#rulesBtn').innerHTML = icon('book') + ' طريقة اللعب';
 $('#rulesClose').innerHTML = icon('x') + ' رجوع';
 $('#remoteHint').innerHTML = 'أسهم الريموت للتنقل · OK للاختيار';
 
-// ---------------------------------------------------------------- narrator voice
-// Narration is written in Kuwaiti dialect. The accent itself comes from the device's text-to-speech
-// voice, so we pick the most Gulf one available: Kuwait first, then the other Gulf countries, then any Arabic.
-var GULF = ['ar-KW', 'ar-SA', 'ar-AE', 'ar-QA', 'ar-BH', 'ar-OM'];
-function gulfVoice() {
-  try {
-    var vs = speechSynthesis.getVoices().filter(function (v) {
-      return /^ar/i.test(v.lang);
-    });
-    var norm = function norm(l) {
-      return l.replace('_', '-').toLowerCase();
-    };
-    var _iterator = _createForOfIteratorHelper(GULF),
-      _step;
-    try {
-      var _loop = function _loop() {
-          var want = _step.value;
-          var v = vs.find(function (x) {
-            return norm(x.lang) === want.toLowerCase();
-          });
-          if (v) return {
-            v: v
-          };
-        },
-        _ret;
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        _ret = _loop();
-        if (_ret) return _ret.v;
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-    return vs[0] || null;
-  } catch (e) {
-    return null;
-  }
-}
-function speak(t) {
-  if (!sound || !t) return;
-  try {
-    if (window.Narrator && Narrator.available()) {
-      Narrator.speak(t);
-      return;
-    }
-  } catch (e) {}
-  try {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(t),
-        v = gulfVoice();
-      u.lang = v ? v.lang : 'ar-KW';
-      if (v) u.voice = v;
-      u.rate = .95;
-      speechSynthesis.speak(u);
-    }
-  } catch (e) {}
-}
-/** Plays a few of the narrator's lines so the host can hear the voice before playing. */
-var DEMO_LINES = ['توزعت الأدوار، كل واحد يشوف دوره بتلفونه بالسر ويدوس جاهز.', 'صار الليل والديرة نامت. كل واحد ياخذ تلفونه ويسوي اللي عليه بدون لا يحس اللي يمه.', 'صباح الخير يا جماعة. للأسف، لقينا سالم مقتول.', 'يلا، بدا وقت النقاش. منو شاكّين فيه؟', 'الديرة حكمت على فهد. عندك عشرين ثانية، قول كلمتك الأخيرة.'];
-function demoNarrator() {
-  var keys = ['reveal', 'night', 'morning-dead', 'discuss', 'last-words'];
-  var _next = function next(k) {
-    if (k < keys.length) say(keys[k], DEMO_LINES[k], function () {
-      return setTimeout(function () {
-        return _next(k + 1);
-      }, 600);
-    });
-  };
-  _next(0);
-}
+// The narrator is the screen: no voice. The only sounds are the effects below, with their own switch.
 function updateSoundButton() {
-  $('#soundBtn').innerHTML = icon(sound ? 'vol' : 'mute') + ' الراوي';
+  $('#soundBtn').innerHTML = icon(sound ? 'vol' : 'mute') + ' المؤثرات';
   $('#soundBtn').setAttribute('aria-pressed', sound);
 }
 $('#soundBtn').onclick = function () {
@@ -114,7 +43,7 @@ $('#soundBtn').onclick = function () {
 updateSoundButton();
 
 // ---------------------------------------------------------------- sound effects (Web Audio, no files)
-// Night ambience, the sniper's gunshot and a heartbeat for the last 10 seconds. They follow the narrator switch.
+// Night ambience, the sniper's gunshot and a heartbeat for the last 10 seconds, behind the 'effects' switch.
 var Sfx = function () {
   var ctx = null,
     drone = null;
@@ -246,57 +175,6 @@ var Sfx = function () {
   }, true);
 });
 
-// The narrator's lines were recorded by the owner (assets/web/narrator/*.m4a). Names are not in the
-// recordings: the screen shows them. If a clip cannot play, the device's text-to-speech says the line.
-var CLIP_BASE = './narrator/';
-var clipAudio = null;
-function say(key, text, then) {
-  if (!sound) return;
-  try {
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
-  } catch (e) {}
-  if (clipAudio) {
-    clipAudio.onended = clipAudio.onerror = null;
-    clipAudio.pause();
-  }
-  var a = new Audio(CLIP_BASE + key + '.m4a');
-  var fell = false;
-  var fallback = function fallback() {
-    if (fell) return;
-    fell = true;
-    speak(text);
-    if (then) setTimeout(then, 3500);
-  };
-  a.onerror = fallback;
-  a.onended = function () {
-    if (then) then();
-  };
-  clipAudio = a;
-  var p = a.play();
-  if (p && p.catch) p.catch(fallback);
-}
-function narrate(s) {
-  var p = s.phase,
-    and = function and(names) {
-      return names.join(' و ');
-    };
-  if (p === 'reveal') say('reveal', 'توزعت الأدوار، كل واحد يشوف دوره بتلفونه بالسر ويدوس جاهز.');else if (p === 'night') say('night', 'صار الليل والديرة نامت. كل واحد ياخذ تلفونه ويسوي اللي عليه بدون لا يحس اللي يمه.');else if (p === 'morning') {
-    var names = ((s.morning || {}).victims || []).map(function (v) {
-      return v.name;
-    });
-    if (names.length) say('morning-dead', 'صباح الخير يا جماعة. للأسف، لقينا ' + and(names) + (names.length > 1 ? ' مقتولين.' : ' مقتول.'));else say('morning-safe', 'صباح الخير يا جماعة. الليلة اللي طافت عدّت على خير، الحمد لله، ومحد انقتل.');
-  } else if (p === 'discuss') say('discuss', 'يلا، بدا وقت النقاش. منو شاكّين فيه؟');else if (p === 'accuse') say('accuse', 'خلص النقاش. كل واحد يتهم واحد من تلفونه. اللي ياخذ اتهامين أو أكثر يدخل المحاكمة.');else if (p === 'defense') say('defense', 'على المحاكمة: ' + and((s.candidates || []).map(function (c) {
-    return c.name;
-  })) + '. عندكم ثلاثين ثانية تدافعون عن روحكم.');else if (p === 'vote') {
-    var trial = (s.candidates || []).length;
-    say(trial ? 'vote-trial' : 'vote-open', trial ? 'خلص الدفاع. صوّتوا الحين بين المتهمين.' : 'خلص النقاش. صوّتوا الحين من تلفوناتكم.');
-  } else if (p === 'lastWords') say('last-words', 'الديرة حكمت على ' + (s.lastWords || {}).name + '. عندك عشرين ثانية، قول كلمتك الأخيرة.');else if (p === 'verdict') {
-    var v = s.verdict || {},
-      r = v.executedRole;
-    if (v.executed > 0) say(!r ? 'exec-secret' : isMafiaRole(r) ? 'exec-mafia' : 'exec-town', 'تم الإعدام. ' + (!r ? 'ودوره يبقى سر.' : isMafiaRole(r) ? 'وطلع من المافيا!' : 'وطلع بريء!'));else if (v.noTrial) say('no-trial', 'محد خذا اتهامين. ماكو محاكمة اليوم.');else if (v.tie) say('tie', 'الأصوات تعادلت، ومحد انعدم اليوم.');else say('no-exec', 'الديرة قررت ما تعدم أحد اليوم.');
-  } else if (p === 'over') say(s.winner === 'mafia' ? 'win-mafia' : 'win-town', s.winner === 'mafia' ? 'خلصت اللعبة. المافيا فازت!' : 'خلصت اللعبة. أهل الديرة فازوا، وخلصنا من المافيا!');
-}
-
 // ---------------------------------------------------------------- rules overlay
 var rulesOpen = false,
   rulesReturn = null;
@@ -398,7 +276,7 @@ function screenLobby(s) {
   var role = function role(k, ic, label, key, from) {
     return n >= from ? "<div class=\"set\"><span class=\"lbl\">".concat(icon(ic), " ").concat(label, "</span>").concat(sw(k, st[key], label, key), "</div>") : "<div class=\"set locked\" title=\"\u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ".concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><span class=\"lbl\">").concat(icon(ic), " ").concat(label, " <small>").concat(from, "+</small></span><button class=\"sw\" disabled aria-label=\"").concat(label, ": \u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ").concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><i></i></button></div>");
   };
-  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealNight, 'كشف دور الميت (المقتول والمعدوم)', 'revealNight'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        ").concat(actionButton('voice', 'جرّب الراوي', 'vol', 'demoNarrator()', 'ghost sm'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
+  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealNight, 'كشف دور الميت (المقتول والمعدوم)', 'revealNight'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
 }
 
 /** The cards the next game deals, as "3 مافيا · المحقق · …", so the host sees which roles fit. */
@@ -458,7 +336,7 @@ function pickMode(k) {
 }
 /** Inside the Android app the chooser (same Wi-Fi / diwaniya / online) is one step back. */
 function inApp() {
-  return !!window.Narrator;
+  return !!window.AndroidApp;
 }
 function goBack() {
   if (inApp() && history.length > 1) history.back();else showCreate();
@@ -702,12 +580,7 @@ function render(s) {
   if (rulesOpen) $('#rulesClose').focus();
   if (s.phase !== lastPhase && lastPhase !== null) {
     if (s.phase === 'night') Sfx.nightOn();else Sfx.nightOff();
-    if (s.phase === 'morning' && s.morning && s.morning.sniperFired) {
-      Sfx.gunshot();
-      setTimeout(function () {
-        return narrate(s);
-      }, 1400);
-    } else narrate(s);
+    if (s.phase === 'morning' && s.morning && s.morning.sniperFired) Sfx.gunshot();
   }
   lastPhase = s.phase;
 }
@@ -830,11 +703,11 @@ document.addEventListener('keydown', function (e) {
     dy = _dirs$k[1];
   var best = null,
     bestScore = Infinity;
-  var _iterator2 = _createForOfIteratorHelper(list),
-    _step2;
+  var _iterator = _createForOfIteratorHelper(list),
+    _step;
   try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      var b = _step2.value;
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var b = _step.value;
       if (b === cur) continue;
       var q = b.getBoundingClientRect(),
         bx = q.left + q.width / 2,
@@ -849,9 +722,9 @@ document.addEventListener('keydown', function (e) {
       }
     }
   } catch (err) {
-    _iterator2.e(err);
+    _iterator.e(err);
   } finally {
-    _iterator2.f();
+    _iterator.f();
   }
   if (best) best.focus();
 });
