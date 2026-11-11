@@ -270,7 +270,7 @@ function viewNight() {
       });
     }).join('') + "</div>";
   } else {
-    var why = r === 'sniper' ? 'استخدمت رصاصتك؛ اختيارك الآن للتمويه فقط.' : r === 'spy' ? 'للتمويه فقط؛ ما تسمعه من المافيا يصلك في الصباح.' : r === 'mayor' ? 'للتمويه فقط؛ قوتك تظهر في التصويت النهائي.' : r === 'joker' ? 'للتمويه فقط؛ لعبتك في النهار: خلّهم يشكّون فيك.' : 'للتمويه فقط، حتى لا يعرف أحد أنك مواطن عادي.';
+    var why = r === 'sniper' ? 'استخدمت رصاصتك؛ اختيارك الآن للتمويه فقط.' : r === 'spy' ? 'للتمويه فقط؛ ما تسمعه من المافيا يصلك في الصباح.' : r === 'mayor' ? 'للتمويه فقط؛ قوتك تظهر في التصويت النهائي.' : 'للتمويه فقط، حتى لا يعرف أحد أنك مواطن عادي.';
     h += "<h2>\u0627\u062E\u062A\u0631 \u0645\u0646 \u062A\u0634\u0643 \u0641\u064A\u0647</h2><p>".concat(why, "</p><div class=\"list\">") + alive.filter(function (p) {
       return p.id !== S.me.id;
     }).map(function (p) {
@@ -492,7 +492,7 @@ function viewDefense() {
 function viewLastWords() {
   var lw = S.lastWords || {},
     me = lw.id === S.me.id;
-  return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('chat'), "</div>\n    <div class=\"big\">").concat(me ? 'هذه كلمتك الأخيرة' : 'الكلمة الأخيرة لـ <span class="red">' + esc(lw.name) + '</span>', "</div>\n    <div class=\"huge\" id=\"cd\"></div><p>").concat(me ? 'قل ما تريد قبل أن يُكشف دورك.' : 'استمعوا… بعدها ينكشف دوره.', "</p></div>") + checksHtml();
+  return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('chat'), "</div>\n    <div class=\"big\">").concat(me ? 'هذه كلمتك الأخيرة' : 'الكلمة الأخيرة لـ <span class="red">' + esc(lw.name) + '</span>', "</div>\n    <div class=\"huge\" id=\"cd\"></div><p>").concat(me ? 'قل اللي تبيه قبل الإعدام.' : 'استمعوا… بعدها يُنفّذ الحكم.', "</p></div>") + checksHtml();
 }
 function viewVote() {
   var my = S.myVote,
@@ -518,14 +518,14 @@ function viewVote() {
 function viewVerdict() {
   var v = S.verdict || {},
     r = v.executedRole;
-  return "<div class=\"card center\"><div class=\"hero-ic ".concat(v.executed > 0 ? 'red' : '', "\">").concat(icon('gavel'), "</div>") + (v.executed > 0 ? "<div class=\"big\">\u062A\u0645 \u0625\u0639\u062F\u0627\u0645 ".concat(esc(v.executedName), "</div><div class=\"result ").concat(isMafiaRole(r) ? 'mafia' : '', "\">").concat(icon(R[r].i)).concat(r === 'mafia' ? 'كان من المافيا' : r === 'godfather' ? 'كان العرّاب' : 'كان ' + R[r].n + ' بريئاً', "</div>") : "<div class=\"big\">".concat(v.noTrial ? 'لا محاكمة اليوم' : v.tie ? 'تعادل — لا إعدام' : 'لم يُعدم أحد', "</div>")) + "<p style=\"margin-top:12px\">\u0627\u0633\u062A\u0639\u062F\u0648\u0627\u2026 \u0627\u0644\u0644\u064A\u0644 \u0642\u0627\u062F\u0645.</p></div>" + checksHtml();
+  return "<div class=\"card center\"><div class=\"hero-ic ".concat(v.executed > 0 ? 'red' : '', "\">").concat(icon('gavel'), "</div>") + (v.executed > 0 ? "<div class=\"big\">\u062A\u0645 \u0625\u0639\u062F\u0627\u0645 ".concat(esc(v.executedName), "</div>") + (r ? "<div class=\"result ".concat(isMafiaRole(r) ? 'mafia' : '', "\">").concat(icon(R[r].i)).concat(r === 'mafia' ? 'كان من المافيا' : r === 'godfather' ? 'كان العرّاب' : 'كان ' + R[r].n + ' بريئاً', "</div>") : "<div class=\"result\">".concat(icon('lock'), "\u062F\u0648\u0631\u0647 \u064A\u0628\u0642\u0649 \u0633\u0631</div>")) : "<div class=\"big\">".concat(v.noTrial ? 'لا محاكمة اليوم' : v.tie ? 'تعادل — لا إعدام' : 'لم يُعدم أحد', "</div>")) + "<p style=\"margin-top:12px\">\u0627\u0633\u062A\u0639\u062F\u0648\u0627\u2026 \u0627\u0644\u0644\u064A\u0644 \u0642\u0627\u062F\u0645.</p></div>" + checksHtml();
 }
 function viewOver() {
   var w = S.winner,
     r = S.me.role;
-  var won = w === 'joker' ? r === 'joker' : w === 'mafia' ? isMafiaRole(r) : !isMafiaRole(r) && r !== 'joker';
-  var title = w === 'joker' ? 'فاز الجوكر وحده!' : w === 'mafia' ? 'فازت المافيا' : 'فاز الأبرياء';
-  return "<div class=\"card center\"><div class=\"hero-ic ".concat(won ? 'red' : '', "\">").concat(icon(won ? 'trophy' : 'skull'), "</div>\n    <div class=\"big ").concat(w !== 'town' ? 'red' : '', "\">").concat(title, "</div><p>").concat(won ? r === 'joker' ? 'خدعتهم كلهم. مبروك!' : 'مبروك، فريقك فاز.' : 'خسرت هذه المرة.', "</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0623\u062F\u0648\u0627\u0631</span><div class=\"list\">").concat(S.players.map(function (p) {
+  var won = w === 'mafia' ? isMafiaRole(r) : !isMafiaRole(r);
+  var title = w === 'mafia' ? 'فازت المافيا' : 'فاز الأبرياء';
+  return "<div class=\"card center\"><div class=\"hero-ic ".concat(won ? 'red' : '', "\">").concat(icon(won ? 'trophy' : 'skull'), "</div>\n    <div class=\"big ").concat(w !== 'town' ? 'red' : '', "\">").concat(title, "</div><p>").concat(won ? 'مبروك، فريقك فاز.' : 'خسرت هذه المرة.', "</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0623\u062F\u0648\u0627\u0631</span><div class=\"list\">").concat(S.players.map(function (p) {
     return choiceRow(p, false, {
       static: true,
       cls: p.alive ? '' : 'dead'

@@ -262,7 +262,6 @@
     mayor: '<path d="M3 18h18M4 18 3 7l5 4 4-6 4 6 5-4-1 11"/><path d="M5 21h14"/>',
     guard: '<path d="M12 2.5 20 6v6c0 4.8-3.4 8.3-8 9.5-4.6-1.2-8-4.7-8-9.5V6z"/><path d="m9 12 2 2 4-4"/>',
     godfather: '<path d="M2 15h20"/><path d="M5 15c0-2 .5-6 2-8.5 1-1.6 2.5-.9 3.5-.4.9.4 2.1.4 3 0 1-.5 2.5-1.2 3.5.4 1.5 2.5 2 6.5 2 8.5"/><path d="M5.5 13h13"/><path d="M8 19a4 2 0 0 0 8 0"/>',
-    joker: '<circle cx="12" cy="12" r="9"/><path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/><path d="m8 9 2 1M16 9l-2 1"/>',
     villager: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
     moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
@@ -302,7 +301,7 @@
   // Original brand mark: faceless figure in a fedora with a red band and tie.
   // Brand mark supplied by the owner (transparent PNG, ~466x516).
   window.LOGO = function (cls) {
-    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwccv6ue" alt="شعار المافيا" draggable="false">';
+    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwcdrnej" alt="شعار المافيا" draggable="false">';
   };
   /** Roles on the mafia side (the godfather included). */
   window.isMafiaRole = function (r) {
@@ -421,12 +420,6 @@
       team: 'رئيس المافيا',
       i: 'godfather',
       d: 'أنت من المافيا وتختار الضحية مع زملائك، لكن المحقق يشوفك بريئاً. ثقتهم فيك سلاحك.'
-    },
-    joker: {
-      n: 'الجوكر',
-      team: 'يلعب وحده',
-      i: 'joker',
-      d: 'هدفك الوحيد: أن تقنع المدينة تعدمك بالتصويت. لو أعدموك تفوز وحدك وتنتهي اللعبة.'
     },
     villager: {
       n: 'مواطن',

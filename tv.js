@@ -193,7 +193,7 @@ var Sfx = function () {
       lp.type = 'lowpass';
       lp.frequency.setValueAtTime(5000, t);
       lp.frequency.exponentialRampToValueAtTime(300, t + 0.9);
-      env(c, g, t, 0.9, 0.004, 1.0);
+      env(c, g, t, 0.6, 0.004, 1.0);
       n.connect(lp);
       lp.connect(g);
       g.connect(c.destination);
@@ -203,7 +203,7 @@ var Sfx = function () {
         og = c.createGain();
       o.frequency.setValueAtTime(140, t);
       o.frequency.exponentialRampToValueAtTime(40, t + 0.3);
-      env(c, og, t, 0.8, 0.003, 0.35);
+      env(c, og, t, 0.45, 0.003, 0.35);
       o.connect(og);
       og.connect(c.destination);
       o.start(t);
@@ -246,8 +246,8 @@ function narrate(s) {
     return c.name;
   })) + '. عندكم ثلاثين ثانية تدافعون عن روحكم.');else if (p === 'vote') speak((s.candidates || []).length ? 'خلص الدفاع. صوّتوا الحين بين المتهمين.' : 'خلص النقاش. صوّتوا الحين من جوالاتكم.');else if (p === 'lastWords') speak('الديرة حكمت على ' + (s.lastWords || {}).name + '. عندك عشرين ثانية، قول كلمتك الأخيرة.');else if (p === 'verdict') {
     var v = s.verdict || {};
-    if (v.executed > 0) speak('انعدم ' + v.executedName + '. وطلع دوره: ' + R[v.executedRole].n);else if (v.noTrial) speak('محد خذا اتهامين. ماكو محاكمة اليوم.');else speak(v.tie ? 'الأصوات تعادلت، ومحد انعدم اليوم.' : 'الديرة قررت ما تعدم أحد اليوم.');
-  } else if (p === 'over') speak(s.winner === 'joker' ? 'خلصت اللعبة. عدمتوا الجوكر… وهذا اللي يبيه بالضبط! الجوكر فاز بروحه.' : s.winner === 'mafia' ? 'خلصت اللعبة. المافيا فازت!' : 'خلصت اللعبة. الأبرياء فازوا، وخلصنا من المافيا!');
+    if (v.executed > 0) speak('انعدم ' + v.executedName + (v.executedRole ? '. وطلع دوره: ' + R[v.executedRole].n : '. ودوره يبقى سر.'));else if (v.noTrial) speak('محد خذا اتهامين. ماكو محاكمة اليوم.');else speak(v.tie ? 'الأصوات تعادلت، ومحد انعدم اليوم.' : 'الديرة قررت ما تعدم أحد اليوم.');
+  } else if (p === 'over') speak(s.winner === 'mafia' ? 'خلصت اللعبة. المافيا فازت!' : 'خلصت اللعبة. الأبرياء فازوا، وخلصنا من المافيا!');
 }
 
 // ---------------------------------------------------------------- rules overlay
@@ -347,7 +347,11 @@ function screenLobby(s) {
   var sw = function sw(k, on, label, a) {
     return "<button class=\"sw ".concat(on ? 'on' : '', "\" data-k=\"").concat(k, "\" onclick=\"action('").concat(a, "')\" role=\"switch\" aria-checked=\"").concat(on, "\" aria-label=\"").concat(label, "\"><i></i></button>");
   };
-  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('detective'), " \u0627\u0644\u0645\u062D\u0642\u0642</span>").concat(sw('det', st.detective, 'المحقق', 'detective'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('doctor'), " \u0627\u0644\u0637\u0628\u064A\u0628</span>").concat(sw('doc', st.doctor, 'الطبيب', 'doctor'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('sniper'), " \u0627\u0644\u0642\u0646\u0627\u0635</span>").concat(sw('sni', st.sniper, 'القناص', 'sniper'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('spy'), " \u0627\u0644\u062C\u0627\u0633\u0648\u0633</span>").concat(sw('spy', st.spy, 'الجاسوس', 'spy'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('mayor'), " \u0627\u0644\u0639\u0645\u062F\u0629</span>").concat(sw('may', st.mayor, 'العمدة', 'mayor'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('godfather'), " \u0627\u0644\u0639\u0631\u0651\u0627\u0628</span>").concat(sw('gf', st.godfather, 'العرّاب', 'godfather'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('joker'), " \u0627\u0644\u062C\u0648\u0643\u0631</span>").concat(sw('jok', st.joker, 'الجوكر', 'joker'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('guard'), " \u0627\u0644\u062D\u0627\u0631\u0633</span>").concat(sw('grd', st.guard, 'الحارس', 'guard'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealNight, 'كشف دور القتيل', 'revealNight'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
+  // a special role's switch only works once there are enough players for it
+  var role = function role(k, ic, label, key, from) {
+    return n >= from ? "<div class=\"set\"><span class=\"lbl\">".concat(icon(ic), " ").concat(label, "</span>").concat(sw(k, st[key], label, key), "</div>") : "<div class=\"set locked\" title=\"\u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ".concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><span class=\"lbl\">").concat(icon(ic), " ").concat(label, " <small>").concat(from, "+</small></span><button class=\"sw\" disabled aria-label=\"").concat(label, ": \u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ").concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><i></i></button></div>");
+  };
+  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u0623\u062F\u0648\u0627\u0631</span>").concat(sw('rev', st.revealNight, 'كشف دور الميت (المقتول والمعدوم)', 'revealNight'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
 }
 
 /** The cards the next game deals, as "3 مافيا · المحقق · …", so the host sees which roles fit. */
@@ -556,7 +560,7 @@ function screenLastWords(s) {
     orb: 'chat',
     orbCls: 'red',
     kicker: 'الكلمة الأخيرة',
-    body: "<div class=\"lead\">\u062D\u0643\u0645\u062A \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0639\u0644\u0649</div><div class=\"victim\">".concat(esc(lw.name), "</div>\n      <div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u0644\u0643 \u0627\u0644\u0643\u0644\u0645\u0629 \u0627\u0644\u0623\u062E\u064A\u0631\u0629 \u0642\u0628\u0644 \u0623\u0646 \u064A\u0646\u0643\u0634\u0641 \u062F\u0648\u0631\u0643.</div>"),
+    body: "<div class=\"lead\">\u062D\u0643\u0645\u062A \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0639\u0644\u0649</div><div class=\"victim\">".concat(esc(lw.name), "</div>\n      <div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u0644\u0643 \u0627\u0644\u0643\u0644\u0645\u0629 \u0627\u0644\u0623\u062E\u064A\u0631\u0629 \u0642\u0628\u0644 \u062A\u0646\u0641\u064A\u0630 \u0627\u0644\u062D\u0643\u0645.</div>"),
     actions: actionButton('next', 'نفّذ الحكم', 'gavel', "action('next')", 'primary', 'data-default')
   });
 }
@@ -588,11 +592,11 @@ function tallyHtml(v) {
   }).join(''), "</div>");
 }
 function roleVerdict(r) {
-  return r === 'mafia' ? 'كان من المافيا' : r === 'godfather' ? 'كان العرّاب، رئيس المافيا' : r === 'joker' ? 'كان الجوكر' : 'كان ' + R[r].n + ' بريئاً';
+  return r === 'mafia' ? 'كان من المافيا' : r === 'godfather' ? 'كان العرّاب، رئيس المافيا' : 'كان ' + R[r].n + ' بريئاً';
 }
 function screenVerdict(s) {
   var v = s.verdict || {};
-  var body = v.executed > 0 ? "<div class=\"lead\">\u0642\u0631\u0631\u062A \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0625\u0639\u062F\u0627\u0645</div><div class=\"victim\">".concat(esc(v.executedName), "</div>\n       <div class=\"rolechip ").concat(isMafiaRole(v.executedRole) ? 'mafia' : '', "\">").concat(icon(R[v.executedRole].i), " ").concat(roleVerdict(v.executedRole), "</div>") : v.noTrial ? "<div class=\"huge\">\u0644\u0627 \u0645\u062D\u0627\u0643\u0645\u0629</div><div class=\"lead\">\u0644\u0645 \u064A\u062D\u0635\u0644 \u0623\u062D\u062F \u0639\u0644\u0649 \u0627\u062A\u0647\u0627\u0645\u064A\u0646\u060C \u0641\u0644\u0645 \u064A\u064F\u0639\u062F\u0645 \u0623\u062D\u062F \u0627\u0644\u064A\u0648\u0645.</div>" : "<div class=\"huge\">".concat(v.tie ? 'تعادل' : 'لا إعدام', "</div><div class=\"lead\">").concat(v.tie ? 'تعادلت الأصوات، فلم يُعدم أحد اليوم.' : 'الأغلبية امتنعت عن التصويت.', "</div>");
+  var body = v.executed > 0 ? "<div class=\"lead\">\u0642\u0631\u0631\u062A \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0625\u0639\u062F\u0627\u0645</div><div class=\"victim\">".concat(esc(v.executedName), "</div>\n       ").concat(v.executedRole ? "<div class=\"rolechip ".concat(isMafiaRole(v.executedRole) ? 'mafia' : '', "\">").concat(icon(R[v.executedRole].i), " ").concat(roleVerdict(v.executedRole), "</div>") : "<div class=\"rolechip\">".concat(icon('lock'), " \u062F\u0648\u0631\u0647 \u064A\u0628\u0642\u0649 \u0633\u0631</div>")) : v.noTrial ? "<div class=\"huge\">\u0644\u0627 \u0645\u062D\u0627\u0643\u0645\u0629</div><div class=\"lead\">\u0644\u0645 \u064A\u062D\u0635\u0644 \u0623\u062D\u062F \u0639\u0644\u0649 \u0627\u062A\u0647\u0627\u0645\u064A\u0646\u060C \u0641\u0644\u0645 \u064A\u064F\u0639\u062F\u0645 \u0623\u062D\u062F \u0627\u0644\u064A\u0648\u0645.</div>" : "<div class=\"huge\">".concat(v.tie ? 'تعادل' : 'لا إعدام', "</div><div class=\"lead\">").concat(v.tie ? 'تعادلت الأصوات، فلم يُعدم أحد اليوم.' : 'الأغلبية امتنعت عن التصويت.', "</div>");
   return stage({
     orb: 'gavel',
     orbCls: v.executed > 0 ? 'red' : 'white',
@@ -602,9 +606,8 @@ function screenVerdict(s) {
   });
 }
 function screenOver(s) {
-  var mw = s.winner === 'mafia',
-    jw = s.winner === 'joker';
-  return "<div class=\"stage over anim\">".concat(LOGO(), "\n    <span class=\"kicker\">").concat(icon('trophy'), " \u0627\u0646\u062A\u0647\u062A \u0627\u0644\u0644\u0639\u0628\u0629</span>\n    <div class=\"banner ").concat(mw || jw ? 'mafia' : '', "\">").concat(jw ? 'فاز الجوكر وحده!' : mw ? 'فازت المافيا' : 'فاز الأبرياء', "</div>\n    <div class=\"grid wide\">").concat(s.players.map(function (p) {
+  var mw = s.winner === 'mafia';
+  return "<div class=\"stage over anim\">".concat(LOGO(), "\n    <span class=\"kicker\">").concat(icon('trophy'), " \u0627\u0646\u062A\u0647\u062A \u0627\u0644\u0644\u0639\u0628\u0629</span>\n    <div class=\"banner ").concat(mw ? 'mafia' : '', "\">").concat(mw ? 'فازت المافيا' : 'فاز الأبرياء', "</div>\n    <div class=\"grid wide\">").concat(s.players.map(function (p) {
     return playerTile(p);
   }).join(''), "</div>\n    <div class=\"log\">").concat((s.log || []).map(function (l) {
     return '· ' + esc(l);
