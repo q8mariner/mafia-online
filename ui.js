@@ -301,7 +301,7 @@
   // Original brand mark: faceless figure in a fedora with a red band and tie.
   // Brand mark supplied by the owner (transparent PNG, ~466x516).
   window.LOGO = function (cls) {
-    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwcdrnej" alt="شعار المافيا" draggable="false">';
+    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwcdu06o" alt="شعار المافيا" draggable="false">';
   };
   /** Roles on the mafia side (the godfather included). */
   window.isMafiaRole = function (r) {
