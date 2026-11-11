@@ -425,9 +425,9 @@ function screenMorning(s) {
 function screenDiscuss(s) {
   return stage({
     kicker: icon('chat') + ' اليوم ' + s.round + ' — وقت النقاش',
-    body: "<div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u062F\u0627\u0641\u0639\u0648\u0627 \u0639\u0646 \u0623\u0646\u0641\u0633\u0643\u0645\u060C \u0627\u062A\u0647\u0645\u0648\u0627\u060C \u062D\u0644\u0651\u0644\u0648\u0627\u2026 \u0645\u0646 \u0628\u064A\u0646\u0643\u0645 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</div>\n      <div class=\"grid wide\">".concat(s.players.map(function (p) {
+    body: "<div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u062F\u0627\u0641\u0639\u0648\u0627 \u0639\u0646 \u0623\u0646\u0641\u0633\u0643\u0645\u060C \u0627\u062A\u0647\u0645\u0648\u0627\u060C \u062D\u0644\u0651\u0644\u0648\u0627\u2026 \u0645\u0646 \u0628\u064A\u0646\u0643\u0645 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</div>\n      ".concat((s.voices || []).length ? "<div class=\"vtitle\">".concat(icon('mic'), " \u0631\u0633\u0627\u0626\u0644 \u0635\u0648\u062A\u064A\u0629 \u2014 \u0627\u0636\u063A\u0637 \u0644\u062A\u0634\u063A\u064A\u0644\u0647\u0627 \u0644\u0644\u0643\u0644\u060C \u0648\u062A\u0646\u0645\u0633\u062D \u0628\u0639\u062F \u0627\u0644\u0646\u0642\u0627\u0634</div><div class=\"vlist\">").concat(Voices.html(s.voices, 'tv'), "</div>") : "<div class=\"grid wide\">".concat(s.players.map(function (p) {
       return playerTile(p);
-    }).join(''), "</div>"),
+    }).join(''), "</div>").concat(s.room ? "<div class=\"meta\">".concat(icon('mic'), " \u0643\u0644 \u0644\u0627\u0639\u0628 \u064A\u0642\u062F\u0631 \u064A\u0633\u062C\u0651\u0644 \u0631\u0633\u0627\u0644\u0629 \u0635\u0648\u062A\u064A\u0629 \u062F\u0642\u064A\u0642\u0629 \u0645\u0646 \u062C\u0648\u0627\u0644\u0647</div>") : '')),
     actions: actionButton('add', 'دقيقة إضافية', 'plus', "action('addTime')") + actionButton('next', 'ابدأ التصويت', 'vote', "action('next')", 'primary', 'data-default')
   });
 }
@@ -587,6 +587,7 @@ function tickClock() {
     cd.textContent = fmt(left);
     cd.classList.toggle('low', left < 30000);
   }
+  Voices.refresh();
   var sec = Math.ceil(left / 1000);
   if (S.phase === 'discuss' && S.endsAt && sec > 0 && sec <= 10 && sec !== tickClock.beat) {
     tickClock.beat = sec;
@@ -632,6 +633,7 @@ function _poll() {
           // server briefly unreachable; the next poll retries
           clockOffset = s.now - Date.now();
           S = s;
+          Voices.prune(s.voices);
           if (s.v !== lastV || s.phase === 'lobby') {
             // the lobby also redraws when a phone goes on/offline
             sig = JSON.stringify([s.v, s.players.map(function (p) {

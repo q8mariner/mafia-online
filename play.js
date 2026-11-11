@@ -290,8 +290,165 @@ function viewMorning() {
   }).join(' و ');
   return "<div class=\"card center\"><div class=\"hero-ic ".concat(victims.length ? 'red' : '', "\">").concat(icon(victims.length ? 'skull' : 'sun'), "</div>") + (victims.length ? "<div class=\"big\">\u0642\u064F\u062A\u0644 ".concat(names, " \u0627\u0644\u0644\u064A\u0644\u0629</div>") : "<div class=\"big\">\u0645\u0631\u0651\u062A \u0627\u0644\u0644\u064A\u0644\u0629 \u0628\u0633\u0644\u0627\u0645</div>") + "<p>\u062A\u0627\u0628\u0639\u0648\u0627 \u0634\u0627\u0634\u0629 \u0627\u0644\u062A\u0644\u0641\u0632\u064A\u0648\u0646.</p></div>" + checksHtml();
 }
+// ---------------------------------------------------------------- one-minute voice message (online discussion)
+var REC_MAX_MS = 60000;
+var Rec = {
+  state: 'idle',
+  mr: null,
+  stream: null,
+  chunks: [],
+  started: 0,
+  timer: 0,
+  discard: false
+};
+function recStart() {
+  return _recStart.apply(this, arguments);
+}
+function _recStart() {
+  _recStart = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+    var type, _t;
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.p = _context3.n) {
+        case 0:
+          if (!(Rec.state !== 'idle')) {
+            _context3.n = 1;
+            break;
+          }
+          return _context3.a(2);
+        case 1:
+          if (!(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder)) {
+            _context3.n = 2;
+            break;
+          }
+          err = 'متصفح جوالك ما يدعم التسجيل؛ جرّب كروم أو سفاري محدّث';
+          render(true);
+          return _context3.a(2);
+        case 2:
+          _context3.p = 2;
+          _context3.n = 3;
+          return navigator.mediaDevices.getUserMedia({
+            audio: true
+          });
+        case 3:
+          Rec.stream = _context3.v;
+          _context3.n = 5;
+          break;
+        case 4:
+          _context3.p = 4;
+          _t = _context3.v;
+          err = 'لازم تسمح للمتصفح يستخدم المايك';
+          render(true);
+          return _context3.a(2);
+        case 5:
+          type = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm', 'audio/ogg'].find(function (t) {
+            return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t);
+          });
+          try {
+            Rec.mr = new MediaRecorder(Rec.stream, type ? {
+              mimeType: type,
+              audioBitsPerSecond: 48000
+            } : undefined);
+          } catch (e) {
+            Rec.mr = new MediaRecorder(Rec.stream);
+          }
+          Rec.chunks = [];
+          Rec.discard = false;
+          Rec.mr.ondataavailable = function (e) {
+            if (e.data && e.data.size) Rec.chunks.push(e.data);
+          };
+          Rec.mr.onstop = recUpload;
+          Rec.mr.start(1000);
+          Rec.started = Date.now();
+          Rec.state = 'rec';
+          err = '';
+          Rec.timer = setTimeout(recStop, REC_MAX_MS);
+          render(true);
+        case 6:
+          return _context3.a(2);
+      }
+    }, _callee3, null, [[2, 4]]);
+  }));
+  return _recStart.apply(this, arguments);
+}
+function recStop(discard) {
+  if (Rec.state !== 'rec') return;
+  Rec.discard = !!discard;
+  clearTimeout(Rec.timer);
+  Rec.state = discard ? 'idle' : 'sending';
+  try {
+    Rec.mr.stop();
+  } catch (e) {
+    console.warn('recorder stop failed', e);
+  }
+  if (Rec.stream) Rec.stream.getTracks().forEach(function (t) {
+    return t.stop();
+  });
+  render(true);
+}
+function recUpload() {
+  return _recUpload.apply(this, arguments);
+}
+function _recUpload() {
+  _recUpload = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+    var ms, blob, r, _t2;
+    return _regenerator().w(function (_context4) {
+      while (1) switch (_context4.n) {
+        case 0:
+          if (!Rec.discard) {
+            _context4.n = 1;
+            break;
+          }
+          Rec.chunks = [];
+          return _context4.a(2);
+        case 1:
+          ms = Math.min(REC_MAX_MS, Date.now() - Rec.started);
+          blob = new Blob(Rec.chunks, {
+            type: (Rec.mr && Rec.mr.mimeType || 'audio/webm').split(';')[0]
+          });
+          Rec.chunks = [];
+          if (!(ms < 800)) {
+            _context4.n = 2;
+            break;
+          }
+          _t2 = {
+            ok: false,
+            error: 'التسجيل قصير جداً'
+          };
+          _context4.n = 4;
+          break;
+        case 2:
+          _context4.n = 3;
+          return API.sendVoice(T, blob, ms);
+        case 3:
+          _t2 = _context4.v;
+        case 4:
+          r = _t2;
+          Rec.state = 'idle';
+          err = r.ok ? '' : r.error || 'ما وصل التسجيل';
+          lastV = -1;
+          render(true);
+          poll();
+        case 5:
+          return _context4.a(2);
+      }
+    }, _callee4);
+  }));
+  return _recUpload.apply(this, arguments);
+}
+function voiceCard() {
+  if (!API.online) return '';
+  var list = S.voices || [],
+    mine = list.some(function (v) {
+      return v.playerId === S.me.id;
+    });
+  var ctl = '';
+  if (S.me.alive) {
+    if (Rec.state === 'rec') ctl = "<button class=\"btn primary rec\" onclick=\"recStop()\">".concat(icon('stop'), "\u0625\u064A\u0642\u0627\u0641 \u0648\u0625\u0631\u0633\u0627\u0644 <span id=\"reccd\"></span></button>");else if (Rec.state === 'sending') ctl = "<button class=\"btn\" disabled>".concat(icon('clock'), "\u062C\u0627\u0631\u064A \u0627\u0644\u0625\u0631\u0633\u0627\u0644\u2026</button>");else ctl = "<button class=\"btn ".concat(mine ? '' : 'primary', "\" onclick=\"recStart()\">").concat(icon('mic')).concat(mine ? 'سجّل من جديد' : 'سجّل رسالتك (دقيقة)', "</button>\n      ").concat(mine ? "<div class=\"prog\">".concat(icon('check'), "\u0631\u0633\u0627\u0644\u062A\u0643 \u0648\u0635\u0644\u062A \u0644\u0644\u0643\u0644</div>") : '');
+  }
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('mic'), " \u0631\u0633\u0627\u0626\u0644 \u0627\u0644\u0646\u0642\u0627\u0634 \u0627\u0644\u0635\u0648\u062A\u064A\u0629</span>\n    ").concat(S.me.alive ? '<p>كل واحد له رسالة وحدة لين دقيقة. تنمسح كلها أول ما يخلص النقاش.</p>' : '').concat(ctl, "\n    <div class=\"err\" role=\"alert\">").concat(esc(err), "</div>\n    <div class=\"vlist\">").concat(list.length ? Voices.html(list) : '<p class="small">ما في رسائل للحين.</p>', "</div></div>");
+}
 function viewDiscuss() {
-  return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('chat'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span><div class=\"huge\" id=\"cd\"></div><p>\u0646\u0627\u0642\u0634\u0648\u0627 \u0628\u0635\u0648\u062A \u0639\u0627\u0644\u064D: \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</p></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</span><div class=\"list\">").concat(S.players.map(function (p) {
+  return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('chat'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span><div class=\"huge\" id=\"cd\"></div><p>\u0646\u0627\u0642\u0634\u0648\u0627 ").concat(API.online ? 'على المكالمة' : 'بصوت عالٍ', ": \u0645\u0646 \u0627\u0644\u0645\u0627\u0641\u064A\u0627\u061F</p></div>\n    ").concat(voiceCard(), "\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</span><div class=\"list\">").concat(S.players.map(function (p) {
     return choiceRow(p, false, {
       static: true,
       cls: p.alive ? '' : 'dead'
@@ -402,6 +559,9 @@ function render(force) {
   tickClock();
 }
 function tickClock() {
+  var rc = $('#reccd');
+  if (rc && Rec.state === 'rec') rc.textContent = fmt(REC_MAX_MS - (Date.now() - Rec.started));
+  Voices.refresh();
   var cd = $('#cd');
   if (!cd || !S) return;
   cd.textContent = fmt(S.endsAt ? S.endsAt - (Date.now() + clockOffset) : 0);
@@ -410,17 +570,17 @@ function poll() {
   return _poll.apply(this, arguments);
 } // ---------------------------------------------------------------- privacy cover
 function _poll() {
-  _poll = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+  _poll = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
     var s, phaseChanged;
-    return _regenerator().w(function (_context3) {
-      while (1) switch (_context3.n) {
+    return _regenerator().w(function (_context5) {
+      while (1) switch (_context5.n) {
         case 0:
-          _context3.n = 1;
+          _context5.n = 1;
           return API.me(T);
         case 1:
-          s = _context3.v;
+          s = _context5.v;
           if (!s.gone) {
-            _context3.n = 2;
+            _context5.n = 2;
             break;
           }
           API.setRoom('');
@@ -434,14 +594,14 @@ function _poll() {
           };
           lastPhase = 'nojoin';
           render(true);
-          return _context3.a(2);
+          return _context5.a(2);
         case 2:
           if (!(s.ok === false)) {
-            _context3.n = 3;
+            _context5.n = 3;
             break;
           }
           if (++fails > 2) $('#conn').textContent = 'انقطع الاتصال بالتلفزيون… تأكد أنك على نفس الواي فاي';
-          return _context3.a(2);
+          return _context5.a(2);
         case 3:
           fails = 0;
           $('#conn').textContent = '';
@@ -451,20 +611,22 @@ function _poll() {
           if (phaseChanged) {
             err = '';
             closePeek();
+            if (s.phase !== 'discuss') recStop(true); // the discussion is over: a recording in progress is dropped
             if (s.me && lastPhase !== 'nojoin') setCover(true);
             if (lastPhase && navigator.vibrate) try {
               navigator.vibrate(s.phase === 'night' ? [80, 60, 80] : 60);
             } catch (e) {}
           }
+          Voices.prune(s.voices);
           if (s.v !== lastV || phaseChanged) {
             render(phaseChanged);
             lastV = s.v;
           }
           lastPhase = s.phase;
         case 4:
-          return _context3.a(2);
+          return _context5.a(2);
       }
-    }, _callee3);
+    }, _callee5);
   }));
   return _poll.apply(this, arguments);
 }
@@ -516,7 +678,7 @@ $('#hideBtn').onclick = function () {
   });
 });
 setInterval(function () {
-  if (!covered && S && S.me && Date.now() - lastTouch > COVER_IDLE_MS && document.activeElement !== $('#nameIn')) setCover(true);
+  if (!covered && S && S.me && Rec.state === 'idle' && Date.now() - lastTouch > COVER_IDLE_MS && document.activeElement !== $('#nameIn')) setCover(true);
 }, 1000);
 setInterval(poll, 1000);
 setInterval(tickClock, 250);

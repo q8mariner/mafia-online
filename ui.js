@@ -216,6 +216,22 @@
         t: t
       })).then(dirty);
     },
+    /** Online only: a voice message (Blob) recorded during the discussion, {@code ms} long. */
+    sendVoice: function sendVoice(t, blob, ms) {
+      var type = (blob.type || 'audio/webm').split(';')[0];
+      return fetch(ON.fn + '/voice?code=' + _room + '&t=' + encodeURIComponent(t || '') + '&ms=' + Math.round(ms), {
+        method: 'POST',
+        headers: {
+          'Content-Type': type
+        },
+        body: blob
+      }).then(function (r) {
+        return r.json();
+      }).catch(function (e) {
+        console.warn('voice upload failed', e);
+        return NETWORK_ERROR;
+      }).then(dirty);
+    },
     act: function act(t, a, target) {
       return (ON ? postForm(ON.fn + '/act', {
         code: _room,
@@ -252,6 +268,9 @@
     vol: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
     mute: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="m22 9-6 6M16 9l6 6"/>',
     x: '<path d="M18 6 6 18M6 6l12 12"/>',
+    mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/>',
+    pause: '<path d="M7 4h3v16H7zM14 4h3v16h-3z" fill="currentColor" stroke="none"/>',
+    stop: '<rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
     share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
     play: '<path d="M7 4v16l13-8z" fill="currentColor" stroke="none"/>',
@@ -275,12 +294,77 @@
   // Original brand mark: faceless figure in a fedora with a red band and tie.
   // Brand mark supplied by the owner (transparent PNG, ~466x516).
   window.LOGO = function (cls) {
-    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwcb67ol" alt="شعار المافيا" draggable="false">';
+    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwcbxzkk" alt="شعار المافيا" draggable="false">';
   };
   /** Roles on the mafia side (the godfather included). */
   window.isMafiaRole = function (r) {
     return r === 'mafia' || r === 'godfather';
   };
+  // ---------------------------------------------------------------- discussion voice messages (online)
+  // Players are Audio objects kept outside the page markup, so redrawing a screen never cuts a message off.
+  var clips = {};
+  function clip(v) {
+    var a = clips[v.id];
+    if (!a) {
+      a = new Audio();
+      a.preload = 'none';
+      a.src = v.url;
+      a.onended = a.onpause = a.onplay = function () {
+        Voices.refresh();
+      };
+      clips[v.id] = a;
+    }
+    return a;
+  }
+  window.Voices = {
+    /** Buttons for the current list ({id, name, ms, url}). */
+    html: function html(list, cls) {
+      return (list || []).map(function (v) {
+        var a = clip(v),
+          on = !a.paused;
+        return '<button class="vbtn ' + (cls || '') + (on ? ' on' : '') + '" id="vb' + v.id + '" data-k="v' + v.id + '" onclick="Voices.toggle(' + v.id + ')">' + '<span class="vic">' + icon(on ? 'pause' : 'play') + '</span><span class="vnm">' + esc(v.name) + '</span>' + '<span class="vlen">' + fmt(v.ms) + '</span><i class="vbar" style="width:' + progress(a) + '%"></i></button>';
+      }).join('');
+    },
+    toggle: function toggle(id) {
+      var a = clips[id];
+      if (!a) return;
+      if (a.paused) {
+        for (var k in clips) if (clips[k] !== a) clips[k].pause();
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) {
+          console.warn('cannot play voice message', e);
+        });
+      } else a.pause();
+      Voices.refresh();
+    },
+    /** Updates play/pause icons and progress bars in place. */
+    refresh: function refresh() {
+      for (var id in clips) {
+        var b = document.getElementById('vb' + id);
+        if (!b) continue;
+        var a = clips[id],
+          on = !a.paused;
+        b.classList.toggle('on', on);
+        b.querySelector('.vic').innerHTML = icon(on ? 'pause' : 'play');
+        b.querySelector('.vbar').style.width = progress(a) + '%';
+      }
+    },
+    /** Stops and forgets messages that are no longer listed (the discussion ended, or one was replaced). */
+    prune: function prune(list) {
+      var keep = {};
+      (list || []).forEach(function (v) {
+        keep[v.id] = true;
+      });
+      for (var id in clips) if (!keep[id]) {
+        clips[id].pause();
+        clips[id].removeAttribute('src');
+        delete clips[id];
+      }
+    }
+  };
+  function progress(a) {
+    return a.duration && isFinite(a.duration) ? Math.min(100, Math.round(a.currentTime * 100 / a.duration)) : 0;
+  }
   window.ROLE_INFO = {
     mafia: {
       n: 'مافيا',
