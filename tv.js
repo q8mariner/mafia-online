@@ -315,14 +315,17 @@ var MODES = {
   }
 };
 var createMode = API.askedMode() || store.get('mafia_mode') || 'diwaniya';
-/** Opened from the app's chooser (?mode=…): the kind is already picked, so the room is created straight away. */
-var autoCreate = API.askedMode();
+/**
+ * Opening the page starts at "pick and name your diwaniya". The last room is only picked up again when its game
+ * is running (the screen was closed by accident) or when the address names it (?r=CODE, e.g. after a reload).
+ */
+var resuming = API.online && !!API.room() && !/[?&]r=/.test(location.search);
 function screenCreate(msg) {
   var saved = store.get('mafia_room_name') || '';
   var card = function card(k) {
     return "<button class=\"mode ".concat(createMode === k ? 'sel' : '', "\" data-k=\"mode-").concat(k, "\" onclick=\"pickMode('").concat(k, "')\" aria-pressed=\"").concat(createMode === k, "\">\n      ").concat(icon(MODES[k].i), "<b>").concat(MODES[k].t, "</b><span>").concat(MODES[k].d, "</span></button>");
   };
-  return "<div class=\"stage anim create\">\n    <div class=\"huge\">\u0648\u0634 \u0646\u0648\u0639 \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629\u061F</div>\n    <div class=\"modes\">".concat(card('diwaniya')).concat(card('online'), "</div>\n    <input class=\"input\" id=\"roomName\" maxlength=\"30\" placeholder=\"\u0627\u0633\u0645 \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629 (\u0627\u062E\u062A\u064A\u0627\u0631\u064A)\" value=\"").concat(esc(saved), "\" onkeydown=\"if(event.key==='Enter')createRoom()\">\n    <div class=\"actions\">").concat(actionButton('create', 'أنشئ ' + (createMode === 'online' ? 'الأونلاين' : 'الديوانية'), 'play', 'createRoom()', 'primary', 'data-default'), "\n      ").concat(inApp() ? actionButton('back', 'رجوع', 'home', 'goBack()', 'ghost') : '', "</div>\n    <div class=\"err\">").concat(esc(msg || ''), "</div></div>");
+  return "<div class=\"stage anim create\">\n    <div class=\"huge\">\u0648\u0634 \u0646\u0648\u0639 \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629\u061F</div>\n    <div class=\"modes\">".concat(card('diwaniya')).concat(card('online'), "</div>\n    <input class=\"input\" id=\"roomName\" maxlength=\"30\" placeholder=\"\u0627\u0633\u0645 \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629 (\u0627\u062E\u062A\u064A\u0627\u0631\u064A)\" value=\"").concat(esc(saved), "\" onkeydown=\"if(event.key==='Enter')createRoom()\">\n    <div class=\"actions\">").concat(actionButton('create', 'أنشئ ' + (createMode === 'online' ? 'الأونلاين' : 'الديوانية'), 'play', 'createRoom()', 'primary', 'data-default'), "\n      ").concat(window.AndroidApp ? actionButton('wifi', 'ما في إنترنت؟ العبوا على نفس الواي فاي', 'wifi', 'location.href = AndroidApp.wifiGameUrl()', 'sm ghost') : '', "</div>\n    <div class=\"err\">").concat(esc(msg || ''), "</div></div>");
 }
 function pickMode(k) {
   createMode = k;
@@ -332,13 +335,6 @@ function pickMode(k) {
   if (name !== undefined) $('#roomName').value = name;
   var b = document.querySelector('[data-k="mode-' + k + '"]');
   if (b) b.focus();
-}
-/** Inside the Android app the chooser (same Wi-Fi / diwaniya / online) is one step back. */
-function inApp() {
-  return !!window.AndroidApp;
-}
-function goBack() {
-  if (inApp() && history.length > 1) history.back();else showCreate();
 }
 /** From the lobby: opens a new room of the other kind (players have not joined a game yet, so nothing is lost). */
 function switchMode(mode) {
@@ -615,10 +611,6 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
           break;
         }
         showCreate();
-        if (autoCreate) {
-          autoCreate = '';
-          createRoom();
-        }
         return _context.a(2);
       case 1:
         _context.n = 2;
@@ -639,19 +631,33 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
         }
         return _context.a(2);
       case 4:
+        if (!resuming) {
+          _context.n = 5;
+          break;
+        }
+        // the last room: keep it only if its game is under way
+        resuming = false;
+        if (!(s.ok !== false && s.phase === 'lobby')) {
+          _context.n = 5;
+          break;
+        }
+        API.setRoom('');
+        showCreate();
+        return _context.a(2);
+      case 5:
         if (!(s.ok === false)) {
-          _context.n = 6;
+          _context.n = 7;
           break;
         }
         if (!(!S && API.online)) {
-          _context.n = 5;
+          _context.n = 6;
           break;
         }
         // nothing to show yet (e.g. a room saved by an older version): start a new one
         API.setRoom('');
         showCreate('تعذّر فتح الديوانية السابقة، أنشئ وحدة جديدة');
         return _context.a(2);
-      case 5:
+      case 6:
         if (s.error !== lastErr) {
           lastErr = s.error || 'خطأ في السيرفر';
           if (S) {
@@ -660,7 +666,7 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
           }
         }
         return _context.a(2);
-      case 6:
+      case 7:
         clockOffset = s.now - Date.now();
         S = s;
         Voices.prune(s.voices);
@@ -676,7 +682,7 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
           lastV = s.v;
         }
         tickClock();
-      case 7:
+      case 8:
         return _context.a(2);
     }
   }, _callee);
