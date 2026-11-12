@@ -261,7 +261,7 @@ function screenLobby(s) {
   var st = s.settings,
     n = s.players.length;
   var online = s.room && s.room.mode === 'online';
-  var join = s.room ? "<div class=\"head\">".concat(icon(online ? 'globe' : 'users'), " ").concat(s.room.name ? esc(s.room.name) : online ? 'أونلاين' : 'الديوانية', "</div>\n       <div class=\"body\"><div class=\"qr\">").concat(qrSvg(s.url), "</div>\n       <div class=\"code\"><small>\u0643\u0648\u062F \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629</small><b>").concat(esc(s.room.code), "</b></div>\n       ").concat(online ? actionButton('share', 'أرسل الرابط بالواتساب', 'share', 'shareRoom()', 'sm wa') : '', "\n       <div class=\"hint\">").concat(icon(online ? 'globe' : 'wifi'), "<span>").concat(online ? 'كل واحد من بيته يفتح الرابط، والسوالف على مكالمة واتساب أو زوم.' : 'امسحوا الكود من هالشاشة بجوالاتكم. يشتغل بأي إنترنت، واي فاي أو بيانات.', "</span></div>\n       ").concat(s.phase === 'lobby' ? actionButton('leave', online ? 'رجوع: ديوانية بدل الأونلاين' : 'رجوع: أونلاين بدل الديوانية', 'refresh', 'leaveRoom()', 'sm ghost') : '', "</div>") : s.url ? "<div class=\"head\">".concat(icon('users'), " \u0627\u0645\u0633\u062D \u0644\u0644\u0627\u0646\u0636\u0645\u0627\u0645</div>\n       <div class=\"body\"><div class=\"qr\">").concat(qrSvg(s.url), "</div><div class=\"url\">").concat(esc(s.url), "</div>\n       <div class=\"hint\">").concat(icon('wifi'), "<span>\u0627\u0644\u062C\u0648\u0627\u0644 \u0644\u0627\u0632\u0645 \u064A\u0643\u0648\u0646 \u0639\u0644\u0649 \u0646\u0641\u0633 \u0634\u0628\u0643\u0629 \u0627\u0644\u0648\u0627\u064A \u0641\u0627\u064A (\u0646\u0641\u0633 \u0627\u0644\u0631\u0627\u0648\u062A\u0631).</span></div></div>") : "<div class=\"head\">".concat(icon('wifi'), " \u0644\u0627 \u064A\u0648\u062C\u062F \u0627\u062A\u0635\u0627\u0644</div><div class=\"noip\">").concat(icon('wifi'), "\u0627\u0644\u062C\u0647\u0627\u0632 \u063A\u064A\u0631 \u0645\u062A\u0635\u0644 \u0628\u0634\u0628\u0643\u0629 \u0648\u0627\u064A \u0641\u0627\u064A.<br>\u0627\u062A\u0635\u0644 \u0628\u0627\u0644\u0631\u0627\u0648\u062A\u0631 \u0648\u0627\u0646\u062A\u0638\u0631 \u0644\u062D\u0638\u0627\u062A.</div>");
+  var join = s.room ? "<div class=\"head\">".concat(icon(online ? 'globe' : 'users'), " ").concat(s.room.name ? esc(s.room.name) : online ? 'أونلاين' : 'الديوانية', "</div>\n       <div class=\"body\"><div class=\"qr\">").concat(qrSvg(s.url), "</div>\n       <div class=\"code\"><small>\u0643\u0648\u062F \u0627\u0644\u062F\u064A\u0648\u0627\u0646\u064A\u0629</small><b>").concat(esc(s.room.code), "</b></div>\n       ").concat(online ? actionButton('share', 'أرسل الرابط بالواتساب', 'share', 'shareRoom()', 'sm wa') : '', "\n       <div class=\"hint\">").concat(icon(online ? 'globe' : 'wifi'), "<span>").concat(online ? 'كل واحد من بيته يفتح الرابط، والسوالف على مكالمة واتساب أو زوم.' : 'امسحوا الكود من هالشاشة بجوالاتكم. يشتغل بأي إنترنت، واي فاي أو بيانات.', "</span></div>\n       ").concat(s.phase === 'lobby' ? actionButton('leave', online ? 'حوّلها ديوانية' : 'حوّلها أونلاين', 'refresh', "switchMode('" + (online ? 'diwaniya' : 'online') + "')", 'sm ghost') : '', "</div>") : s.url ? "<div class=\"head\">".concat(icon('users'), " \u0627\u0645\u0633\u062D \u0644\u0644\u0627\u0646\u0636\u0645\u0627\u0645</div>\n       <div class=\"body\"><div class=\"qr\">").concat(qrSvg(s.url), "</div><div class=\"url\">").concat(esc(s.url), "</div>\n       <div class=\"hint\">").concat(icon('wifi'), "<span>\u0627\u0644\u062C\u0648\u0627\u0644 \u0644\u0627\u0632\u0645 \u064A\u0643\u0648\u0646 \u0639\u0644\u0649 \u0646\u0641\u0633 \u0634\u0628\u0643\u0629 \u0627\u0644\u0648\u0627\u064A \u0641\u0627\u064A (\u0646\u0641\u0633 \u0627\u0644\u0631\u0627\u0648\u062A\u0631).</span></div></div>") : "<div class=\"head\">".concat(icon('wifi'), " \u0644\u0627 \u064A\u0648\u062C\u062F \u0627\u062A\u0635\u0627\u0644</div><div class=\"noip\">").concat(icon('wifi'), "\u0627\u0644\u062C\u0647\u0627\u0632 \u063A\u064A\u0631 \u0645\u062A\u0635\u0644 \u0628\u0634\u0628\u0643\u0629 \u0648\u0627\u064A \u0641\u0627\u064A.<br>\u0627\u062A\u0635\u0644 \u0628\u0627\u0644\u0631\u0627\u0648\u062A\u0631 \u0648\u0627\u0646\u062A\u0638\u0631 \u0644\u062D\u0638\u0627\u062A.</div>");
   var players = n ? s.players.map(function (p) {
     return "<div class=\"tile\"><span class=\"".concat(p.online ? 'on' : 'off', "\" title=\"").concat(p.online ? 'متصل' : 'غير متصل', "\"></span><span class=\"nm\">").concat(esc(p.name), "</span>\n      <button class=\"kick\" data-k=\"kick").concat(p.id, "\" onclick=\"action('kick',").concat(p.id, ")\" aria-label=\"\u0625\u062E\u0631\u0627\u062C ").concat(esc(p.name), "\">").concat(icon('x'), "</button></div>");
   }).join('') : "<div class=\"empty\">".concat(icon('users'), "\u0628\u0627\u0646\u062A\u0638\u0627\u0631 \u0627\u0644\u0644\u0627\u0639\u0628\u064A\u0646\u2026 \u0627\u0645\u0633\u062D\u0648\u0627 \u0627\u0644\u0628\u0627\u0631\u0643\u0648\u062F \u0645\u0646 \u062C\u0648\u0627\u0644\u0627\u062A\u0643\u0645</div>");
@@ -273,7 +273,7 @@ function screenLobby(s) {
   var role = function role(k, ic, label, key, from) {
     return n >= from ? "<div class=\"set\"><span class=\"lbl\">".concat(icon(ic), " ").concat(label, "</span>").concat(sw(k, st[key], label, key), "</div>") : "<div class=\"set locked\" title=\"\u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ".concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><span class=\"lbl\">").concat(icon(ic), " ").concat(label, " <small>").concat(from, "+</small></span><button class=\"sw\" disabled aria-label=\"").concat(label, ": \u064A\u062A\u0641\u0639\u0651\u0644 \u0645\u0646 ").concat(from, " \u0644\u0627\u0639\u0628\u064A\u0646\"><i></i></button></div>");
   };
-  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealRoles, 'كشف دور الميت (المقتول والمعدوم)', 'revealRoles'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        ").concat(actionButton('rules2', 'طريقة اللعب', 'book', 'showRules()', 'ghost'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
+  return "<div class=\"lobby anim\">\n    <div class=\"join ".concat(online ? 'compact' : '', "\">").concat(join, "</div>\n    <div class=\"panel\">\n      <div class=\"ptitle\"><h2>\u0627\u0644\u0644\u0627\u0639\u0628\u0648\u0646</h2><span class=\"badge\">").concat(n, "</span></div>\n      <div class=\"grid\">").concat(players, "</div>\n      <div class=\"settings\">\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('mafia'), " \u0639\u062F\u062F \u0627\u0644\u0645\u0627\u0641\u064A\u0627</span>\n          <div class=\"stepper\">").concat(actionButton('m-', '', 'minus', "action('mafia',-1)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(st.mafia, "</b>").concat(actionButton('m+', '', 'plus', "action('mafia',1)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set wide\"><span class=\"lbl\">").concat(icon('clock'), " \u0648\u0642\u062A \u0627\u0644\u0646\u0642\u0627\u0634</span>\n          <div class=\"stepper\">").concat(actionButton('t-', '', 'minus', "action('time',-30)", 'sm icon', 'aria-label="إنقاص"'), "<b>").concat(fmt(st.discussSec * 1000), "</b>").concat(actionButton('t+', '', 'plus', "action('time',30)", 'sm icon', 'aria-label="زيادة"'), "</div></div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('refresh'), " 40%</span>").concat(sw('mauto', st.mafiaAuto, 'مافيا تلقائية', 'mafiaAuto'), "</div>\n        ").concat(role('det', 'detective', 'المحقق', 'detective', st.detectiveFrom), "\n        ").concat(role('doc', 'doctor', 'الطبيب', 'doctor', st.doctorFrom), "\n        ").concat(role('grd', 'guard', 'الحارس', 'guard', st.guardFrom), "\n        ").concat(role('sni', 'sniper', 'القناص', 'sniper', st.sniperFrom), "\n        ").concat(role('gf', 'godfather', 'العرّاب', 'godfather', st.godfatherFrom), "\n        ").concat(role('spy', 'spy', 'الجاسوس', 'spy', st.spyFrom), "\n        ").concat(role('may', 'mayor', 'العمدة', 'mayor', st.mayorFrom), "\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('gavel'), " \u0645\u062D\u0627\u0643\u0645\u0629</span>").concat(sw('two', st.twoStage, 'التصويت على مرحلتين', 'twoStage'), "</div>\n        <div class=\"set\"><span class=\"lbl\">").concat(icon('eye'), " \u0643\u0634\u0641 \u0627\u0644\u062F\u0648\u0631</span>").concat(sw('rev', st.revealRoles, 'كشف دور الميت (المقتول والمعدوم)', 'revealRoles'), "</div>\n      </div>\n      ").concat(need ? '' : "<div class=\"deck\">".concat(deckLine(st.deck), "</div>"), "\n      <div class=\"cta\">\n        ").concat(actionButton('start', 'ابدأ اللعبة', 'play', "action('start')", 'primary', (need ? 'disabled' : '') + ' data-default'), "\n        <span class=\"note\">").concat(need ? 'تحتاجون ' + need + ' لاعبين إضافيين على الأقل' : st.mafia + ' مافيا ضد ' + (n - st.mafia), "</span>\n        <span class=\"err\">").concat(esc(lastErr), "</span>\n      </div>\n    </div></div>");
 }
 
 /** The cards the next game deals, as "3 مافيا · المحقق · …", so the host sees which roles fit. */
@@ -315,6 +315,8 @@ var MODES = {
   }
 };
 var createMode = API.askedMode() || store.get('mafia_mode') || 'diwaniya';
+/** Opened from the app's chooser (?mode=…): the kind is already picked, so the room is created straight away. */
+var autoCreate = API.askedMode();
 function screenCreate(msg) {
   var saved = store.get('mafia_room_name') || '';
   var card = function card(k) {
@@ -338,13 +340,16 @@ function inApp() {
 function goBack() {
   if (inApp() && history.length > 1) history.back();else showCreate();
 }
-/** Leaves this room (from the lobby) to choose the other kind or start fresh. */
-function leaveRoom() {
+/** From the lobby: opens a new room of the other kind (players have not joined a game yet, so nothing is lost). */
+function switchMode(mode) {
   API.setRoom('');
   lastV = -1;
   render.sig = null;
   lastPhase = null;
+  createMode = mode;
+  store.set('mafia_mode', mode);
   showCreate();
+  createRoom();
 }
 function createRoom() {
   return _createRoom.apply(this, arguments);
@@ -418,7 +423,7 @@ function screenNight(s) {
 function screenMorning(s) {
   var victims = (s.morning || {}).victims || [];
   var roleChip = function roleChip(v) {
-    return v.role ? "<div class=\"rolechip ".concat(v.role === 'mafia' ? 'mafia' : '', "\">").concat(icon(R[v.role].i), " ").concat(R[v.role].n, "</div>") : '';
+    return v.role ? "<div class=\"rolechip ".concat(isMafiaRole(v.role) ? 'mafia' : '', "\">").concat(icon(R[v.role].i), " ").concat(R[v.role].n, "</div>") : '';
   };
   var body = victims.length ? "<div class=\"lead\">\u0623\u0634\u0631\u0642\u062A \u0627\u0644\u0634\u0645\u0633\u2026 \u0648\u0648\u062C\u062F\u0646\u0627 ".concat(victims.length > 1 ? 'مقتولَين' : 'مقتولاً', "</div>") + victims.map(function (v) {
     return "<div class=\"victim\">".concat(esc(v.name), "</div>").concat(roleChip(v));
@@ -569,7 +574,8 @@ function render(s) {
     return p.alive;
   }).length;
   $('#statusTxt').textContent = STATUS[s.phase] + (s.phase !== 'lobby' && s.phase !== 'over' ? ' · الجولة ' + s.round + ' · الأحياء ' + alive : '');
-  $('#foot').innerHTML = s.room ? icon('globe') + ' كود الديوانية <span class="url">' + esc(s.room.code) + '</span> · ' + esc(s.url) : s.url && s.phase !== 'lobby' ? icon('wifi') + ' رابط الدخول <span class="url">' + esc(s.url) + '</span>' : '';
+  // the lobby shows the QR code and room code itself; during the game the footer keeps them for anyone rejoining
+  $('#foot').innerHTML = s.phase === 'lobby' ? '' : s.room ? icon('globe') + ' كود الديوانية <span class="url">' + esc(s.room.code) + '</span>' : s.url ? icon('wifi') + ' رابط الدخول <span class="url">' + esc(s.url) + '</span>' : '';
   var el = keep && document.querySelector('[data-k="' + keep + '"]:not([disabled])');
   var nothing = !document.activeElement || document.activeElement === document.body;
   if (!el && (s.phase !== lastPhase || nothing)) el = document.querySelector('[data-default]:not([disabled])');
@@ -609,6 +615,10 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
           break;
         }
         showCreate();
+        if (autoCreate) {
+          autoCreate = '';
+          createRoom();
+        }
         return _context.a(2);
       case 1:
         _context.n = 2;
