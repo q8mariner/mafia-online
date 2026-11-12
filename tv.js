@@ -630,10 +630,18 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
         return _context.a(2);
       case 4:
         if (!(s.ok === false)) {
+          _context.n = 6;
+          break;
+        }
+        if (!(!S && API.online)) {
           _context.n = 5;
           break;
         }
-        // the server answered with a failure: say so on screen
+        // nothing to show yet (e.g. a room saved by an older version): start a new one
+        API.setRoom('');
+        showCreate('تعذّر فتح الديوانية السابقة، أنشئ وحدة جديدة');
+        return _context.a(2);
+      case 5:
         if (s.error !== lastErr) {
           lastErr = s.error || 'خطأ في السيرفر';
           if (S) {
@@ -642,7 +650,7 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
           }
         }
         return _context.a(2);
-      case 5:
+      case 6:
         clockOffset = s.now - Date.now();
         S = s;
         Voices.prune(s.voices);
@@ -658,7 +666,7 @@ var poll = serialPoll(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator()
           lastV = s.v;
         }
         tickClock();
-      case 6:
+      case 7:
         return _context.a(2);
     }
   }, _callee);
