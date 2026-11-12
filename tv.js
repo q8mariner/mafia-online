@@ -330,54 +330,84 @@ function screenCreate(msg) {
 function pickMode(k) {
   createMode = k;
   store.set('mafia_mode', k);
-  var name = ($('#roomName') || {}).value;
-  $('#main').innerHTML = screenCreate();
-  if (name !== undefined) $('#roomName').value = name;
-  var b = document.querySelector('[data-k="mode-' + k + '"]');
-  if (b) b.focus();
+  // only the selection and the button label change; redrawing the screen would replay its fade-in (a visible blink)
+  for (var _i = 0, _Object$keys = Object.keys(MODES); _i < _Object$keys.length; _i++) {
+    var m = _Object$keys[_i];
+    var card = document.querySelector('[data-k="mode-' + m + '"]');
+    if (card) {
+      card.classList.toggle('sel', m === k);
+      card.setAttribute('aria-pressed', String(m === k));
+    }
+  }
+  var create = document.querySelector('[data-k="create"]');
+  if (create) create.innerHTML = icon('play') + 'أنشئ ' + (k === 'online' ? 'الأونلاين' : 'الديوانية');
 }
 /** From the lobby: opens a new room of the other kind (players have not joined a game yet, so nothing is lost). */
-function switchMode(mode) {
-  API.setRoom('');
-  lastV = -1;
-  render.sig = null;
-  lastPhase = null;
-  createMode = mode;
-  store.set('mafia_mode', mode);
-  showCreate();
-  createRoom();
+function switchMode(_x3) {
+  return _switchMode.apply(this, arguments);
 }
-function createRoom() {
-  return _createRoom.apply(this, arguments);
-}
-function _createRoom() {
-  _createRoom = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-    var name, r;
+function _switchMode() {
+  _switchMode = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(mode) {
+    var r;
     return _regenerator().w(function (_context3) {
       while (1) switch (_context3.n) {
         case 0:
-          name = (($('#roomName') || {}).value || '').trim();
-          store.set('mafia_room_name', name);
-          $('#main').querySelector('.err').textContent = 'جاري الإنشاء…';
+          createMode = mode;
+          store.set('mafia_mode', mode);
           _context3.n = 1;
-          return API.create(name, createMode);
+          return API.create(store.get('mafia_room_name') || '', mode);
         case 1:
           r = _context3.v;
           if (r.ok) {
             _context3.n = 2;
             break;
           }
-          $('#main').innerHTML = screenCreate(r.error || 'تعذّر الاتصال');
+          lastErr = r.error || 'تعذّر الاتصال';
+          render.sig = null;
+          if (S) render(S);
           return _context3.a(2);
+        case 2:
+          lastV = -1;
+          render.sig = null;
+          poll();
+        case 3:
+          return _context3.a(2);
+      }
+    }, _callee3);
+  }));
+  return _switchMode.apply(this, arguments);
+}
+function createRoom() {
+  return _createRoom.apply(this, arguments);
+}
+function _createRoom() {
+  _createRoom = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+    var name, r;
+    return _regenerator().w(function (_context4) {
+      while (1) switch (_context4.n) {
+        case 0:
+          name = (($('#roomName') || {}).value || '').trim();
+          store.set('mafia_room_name', name);
+          $('#main').querySelector('.err').textContent = 'جاري الإنشاء…';
+          _context4.n = 1;
+          return API.create(name, createMode);
+        case 1:
+          r = _context4.v;
+          if (r.ok) {
+            _context4.n = 2;
+            break;
+          }
+          $('#main').innerHTML = screenCreate(r.error || 'تعذّر الاتصال');
+          return _context4.a(2);
         case 2:
           lastV = -1;
           render.sig = null;
           lastPhase = null;
           poll();
         case 3:
-          return _context3.a(2);
+          return _context4.a(2);
       }
-    }, _callee3);
+    }, _callee4);
   }));
   return _createRoom.apply(this, arguments);
 }
@@ -386,6 +416,7 @@ function showCreate(msg) {
   $('#statusTxt').textContent = 'ديوانية جديدة';
   $('#foot').innerHTML = '';
   if (!$('#roomName')) {
+    $('#main').classList.remove('still');
     $('#main').innerHTML = screenCreate(msg);
     var b = document.querySelector('[data-default]');
     if (b) b.focus();
@@ -565,6 +596,8 @@ var STATUS = {
 function render(s) {
   var keep = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.k : null;
   document.body.className = s.phase === 'night' ? 'night' : '';
+  // entrance animations play when the phase changes, not on every redraw of the same screen (a player joining, a vote)
+  $('#main').classList.toggle('still', s.phase === lastPhase);
   $('#main').innerHTML = (SCREENS[s.phase] || screenLobby)(s);
   var alive = s.players.filter(function (p) {
     return p.alive;
