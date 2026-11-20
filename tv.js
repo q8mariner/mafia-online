@@ -479,7 +479,7 @@ function screenAccuse(s) {
     orb: 'hand',
     orbCls: 'red',
     kicker: 'اليوم ' + s.round + ' — الاتهام',
-    body: "<div class=\"huge\">\u0645\u0646 \u062A\u062A\u0647\u0645\u0648\u0646\u061F</div>\n      <div class=\"lead\">\u0643\u0644 \u0644\u0627\u0639\u0628 \u064A\u062A\u0647\u0645 \u0634\u062E\u0635\u0627\u064B \u0645\u0646 \u062C\u0648\u0627\u0644\u0647. \u0645\u0646 \u064A\u0627\u062E\u0630 \u0627\u062A\u0647\u0627\u0645\u064A\u0646 \u0623\u0648 \u0623\u0643\u062B\u0631 \u064A\u062F\u062E\u0644 \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629.</div>\n      ".concat(acc.some(function (t) {
+    body: "<div class=\"huge\">\u0645\u0646 \u062A\u062A\u0647\u0645\u0648\u0646\u061F</div>\n      <div class=\"lead\">\u0643\u0644 \u0644\u0627\u0639\u0628 \u064A\u062A\u0647\u0645 \u0634\u062E\u0635\u0627\u064B \u0645\u0646 \u062C\u0648\u0627\u0644\u0647. \u0635\u0627\u062D\u0628 \u0623\u0643\u062B\u0631 \u0627\u0644\u0627\u062A\u0647\u0627\u0645\u0627\u062A \u064A\u064F\u0639\u062F\u0645\u060C \u0648\u0625\u0630\u0627 \u062A\u0639\u0627\u062F\u0644\u0648\u0627 \u064A\u0635\u064A\u0631 \u062A\u0635\u0648\u064A\u062A \u0628\u064A\u0646\u0647\u0645.</div>\n      ".concat(acc.some(function (t) {
       return t.id !== SKIP;
     }) ? tallyHtml({
       tally: acc.filter(function (t) {
@@ -504,18 +504,8 @@ function accusedTiles(s) {
 function screenDefense(s) {
   return stage({
     kicker: icon('gavel') + ' المحاكمة — دفاع المتهمين',
-    body: "<div class=\"countdown\" id=\"cd\"></div>".concat(accusedTiles(s), "\n      <div class=\"lead\">\u0643\u0644 \u0645\u062A\u0647\u0645 \u064A\u062F\u0627\u0641\u0639 \u0639\u0646 \u0646\u0641\u0633\u0647 \u0628\u0627\u0644\u062F\u0648\u0631. \u0628\u0639\u062F \u0627\u0644\u062F\u0641\u0627\u0639 \u064A\u0643\u0648\u0646 \u0627\u0644\u062A\u0635\u0648\u064A\u062A \u0628\u064A\u0646\u0647\u0645 \u0641\u0642\u0637.</div>"),
+    body: "<div class=\"countdown\" id=\"cd\"></div>".concat(accusedTiles(s), "\n      <div class=\"lead\">\u062A\u0639\u0627\u062F\u0644\u0648\u0627 \u0641\u064A \u0627\u0644\u0627\u062A\u0647\u0627\u0645\u0627\u062A: \u0643\u0644 \u0648\u0627\u062D\u062F \u064A\u062F\u0627\u0641\u0639 \u0639\u0646 \u0646\u0641\u0633\u0647\u060C \u0648\u0628\u0639\u062F\u0647\u0627 \u0627\u0644\u062A\u0635\u0648\u064A\u062A \u0628\u064A\u0646\u0647\u0645 \u0641\u0642\u0637.</div>"),
     actions: actionButton('next', 'ابدأ التصويت', 'vote', "nextPhase()", 'primary', 'data-default')
-  });
-}
-function screenLastWords(s) {
-  var lw = s.lastWords || {};
-  return stage({
-    orb: 'chat',
-    orbCls: 'red',
-    kicker: 'الكلمة الأخيرة',
-    body: "<div class=\"lead\">\u062D\u0643\u0645\u062A \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0639\u0644\u0649</div><div class=\"victim\">".concat(esc(lw.name), "</div>\n      <div class=\"countdown\" id=\"cd\"></div><div class=\"lead\">\u0644\u0643 \u0627\u0644\u0643\u0644\u0645\u0629 \u0627\u0644\u0623\u062E\u064A\u0631\u0629 \u0642\u0628\u0644 \u062A\u0646\u0641\u064A\u0630 \u0627\u0644\u062D\u0643\u0645.</div>"),
-    actions: actionButton('next', 'نفّذ الحكم', 'gavel', "nextPhase()", 'primary', 'data-default')
   });
 }
 function screenVote(s) {
@@ -576,7 +566,6 @@ var SCREENS = {
   accuse: screenAccuse,
   defense: screenDefense,
   vote: screenVote,
-  lastWords: screenLastWords,
   verdict: screenVerdict,
   over: screenOver
 };
@@ -589,7 +578,6 @@ var STATUS = {
   accuse: 'الاتهام',
   defense: 'الدفاع',
   vote: 'التصويت',
-  lastWords: 'الكلمة الأخيرة',
   verdict: 'الحكم',
   over: 'النهاية'
 };

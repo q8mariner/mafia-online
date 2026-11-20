@@ -216,7 +216,20 @@ function viewNight(s) {
         note: who.length ? 'اختيار ' + who.join('، ') : '',
         noteCls: 'red'
       });
-    }).join('') + "</div>";
+    }).join('') + choiceRow({
+      name: 'ما نقتل أحد الليلة',
+      icon: 'minus'
+    }, pick === SKIP, {
+      onclick: "act('night',SKIP)",
+      note: function (w) {
+        return w.length ? 'اختيار ' + w.join('، ') : '';
+      }(team.filter(function (t) {
+        return t.pick === SKIP;
+      }).map(function (t) {
+        return esc(t.name);
+      })),
+      noteCls: 'red'
+    }) + "</div>";
   } else if (r === 'detective') {
     var last = s.checks && s.checks.length ? s.checks[s.checks.length - 1] : null;
     if (pick > 0 && last && last.round === s.round) {
@@ -468,7 +481,7 @@ function viewDiscuss(s) {
 }
 function viewAccuse(s) {
   var my = s.myAccuse;
-  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('hand'), " \u0627\u0644\u0627\u062A\u0647\u0627\u0645</span><h2>\u0645\u0646 \u062A\u062A\u0647\u0645\u061F</h2><p>\u0645\u0646 \u064A\u0627\u062E\u0630 \u0627\u062A\u0647\u0627\u0645\u064A\u0646 \u0623\u0648 \u0623\u0643\u062B\u0631 \u064A\u062F\u062E\u0644 \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629. \u062A\u0642\u062F\u0631 \u062A\u063A\u064A\u0651\u0631 \u0627\u062A\u0647\u0627\u0645\u0643 \u062D\u062A\u0649 \u064A\u062A\u0647\u0645 \u0627\u0644\u062C\u0645\u064A\u0639.</p><div class=\"list\">") + s.players.filter(function (p) {
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('hand'), " \u0627\u0644\u0627\u062A\u0647\u0627\u0645</span><h2>\u0645\u0646 \u062A\u062A\u0647\u0645\u061F</h2><p>\u0635\u0627\u062D\u0628 \u0623\u0643\u062B\u0631 \u0627\u0644\u0627\u062A\u0647\u0627\u0645\u0627\u062A \u064A\u064F\u0639\u062F\u0645\u060C \u0648\u0625\u0630\u0627 \u062A\u0639\u0627\u062F\u0644\u0648\u0627 \u064A\u0635\u064A\u0631 \u062A\u0635\u0648\u064A\u062A \u0628\u064A\u0646\u0647\u0645.").concat(s.weight > 1 ? " <b class=\"red\">أنت العمدة: اتهامك بصوتين.</b>" : "", " \u062A\u0642\u062F\u0631 \u062A\u063A\u064A\u0651\u0631 \u0627\u062A\u0647\u0627\u0645\u0643 \u062D\u062A\u0649 \u064A\u062A\u0647\u0645 \u0627\u0644\u062C\u0645\u064A\u0639.</p><div class=\"list\">") + s.players.filter(function (p) {
     return p.alive && p.id !== s.me.id;
   }).map(function (p) {
     return choiceRow(p, my === p.id, {
@@ -497,11 +510,6 @@ function viewDefense(s) {
   });
   return "<div class=\"card center\"><span class=\"eyebrow\">".concat(icon('gavel'), " \u0627\u0644\u0645\u062D\u0627\u0643\u0645\u0629</span><div class=\"huge\" id=\"cd\"></div>\n    <div class=\"big ").concat(mine ? 'red' : '', "\">").concat(mine ? 'أنت متهم! دافع عن نفسك' : 'استمعوا لدفاع المتهمين', "</div></div>\n    <div class=\"card\"><span class=\"eyebrow\">").concat(icon('users'), " \u0627\u0644\u0645\u062A\u0647\u0645\u0648\u0646</span>").concat(accusedList(), "</div>") + checksHtml();
 }
-function viewLastWords(s) {
-  var lw = s.lastWords || {},
-    me = lw.id === s.me.id;
-  return "<div class=\"card center\"><div class=\"hero-ic red\">".concat(icon('chat'), "</div>\n    <div class=\"big\">").concat(me ? 'هذه كلمتك الأخيرة' : 'الكلمة الأخيرة لـ <span class="red">' + esc(lw.name) + '</span>', "</div>\n    <div class=\"huge\" id=\"cd\"></div><p>").concat(me ? 'قل اللي تبيه قبل الإعدام.' : 'استمعوا… بعدها يُنفّذ الحكم.', "</p></div>") + checksHtml();
-}
 function viewVote(s) {
   var my = s.myVote,
     trial = (s.candidates || []).length > 0;
@@ -510,7 +518,7 @@ function viewVote(s) {
   }) : s.players.filter(function (p) {
     return p.alive && p.id !== s.me.id;
   });
-  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('vote'), " ").concat(trial ? 'التصويت النهائي' : 'التصويت', "</span><h2>").concat(trial ? 'من يُعدم من المتهمين؟' : 'من تشك أنه مافيا؟', "</h2>\n    <p>\u064A\u0645\u0643\u0646\u0643 \u062A\u063A\u064A\u064A\u0631 \u0635\u0648\u062A\u0643 \u062D\u062A\u0649 \u064A\u0635\u0648\u0651\u062A \u0627\u0644\u062C\u0645\u064A\u0639.").concat(s.weight > 1 ? ' <b class="red">أنت العمدة: صوتك بصوتين.</b>' : '', "</p><div class=\"list\">") + options.map(function (p) {
+  return "<div class=\"card\"><span class=\"eyebrow\">".concat(icon('vote'), " ").concat(trial ? 'التصويت النهائي' : 'التصويت', "</span><h2>").concat(trial ? 'من يُعدم من المتهمين؟' : 'من تشك أنه مافيا؟', "</h2>\n    <p>").concat(trial ? 'تعادلوا في الاتهامات، فالتصويت بينهم. ' : '', "\u064A\u0645\u0643\u0646\u0643 \u062A\u063A\u064A\u064A\u0631 \u0635\u0648\u062A\u0643 \u062D\u062A\u0649 \u064A\u0635\u0648\u0651\u062A \u0627\u0644\u062C\u0645\u064A\u0639.").concat(s.weight > 1 ? ' <b class="red">أنت العمدة: صوتك بصوتين.</b>' : '', "</p><div class=\"list\">") + options.map(function (p) {
     return choiceRow(p, my === p.id, {
       kill: true,
       onclick: "act('vote',".concat(p.id, ")"),
@@ -550,7 +558,6 @@ var VIEWS = {
   accuse: viewAccuse,
   defense: viewDefense,
   vote: viewVote,
-  lastWords: viewLastWords,
   verdict: viewVerdict,
   over: viewOver
 };
@@ -653,7 +660,6 @@ var PHASE_LINE = {
   accuse: ['hand', 'وقت الاتهام'],
   defense: ['gavel', 'المحاكمة'],
   vote: ['vote', 'وقت التصويت'],
-  lastWords: ['chat', 'الكلمة الأخيرة'],
   verdict: ['gavel', 'نتيجة التصويت'],
   over: ['trophy', 'انتهت اللعبة']
 };
