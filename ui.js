@@ -235,7 +235,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     };
     var serverNow = s ? s.now + (now - c.at) : 0;
     if (c.dirty || !s || s.endsAt && serverNow >= s.endsAt - 300 && now - c.lastFull > 1500 || (s.phase === 'lobby' || s.phase === 'nojoin') && now - c.lastFull > 3000 || now - c.lastFull > 15000) return full();
-    return fetch(ON.rest + '/mafia_room_versions?select=v&code=eq.' + _room, {
+    // one room's version by its code (the table itself is closed, so room codes cannot be listed)
+    return fetch(ON.rest + '/rpc/mafia_room_version?p_code=' + encodeURIComponent(_room), {
       headers: {
         apikey: ON.key,
         Authorization: 'Bearer ' + ON.key
@@ -243,14 +244,22 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       cache: 'no-store'
     }).then(function (r) {
       return r.json();
-    }).then(function (rows) {
-      return rows && rows.length && rows[0].v === s.v ? Object.assign({}, s, {
+    }).then(function (v) {
+      return v === s.v ? Object.assign({}, s, {
         now: s.now + (Date.now() - c.at)
       }) : full();
     }).catch(function () {
       return full();
     });
   }
+
+  /** What a hosted-only call answers in the Wi-Fi game: the usual envelope, never an exception. */
+  var hostedOnly = function hostedOnly() {
+    return Promise.resolve({
+      ok: false,
+      error: 'غير متاح في لعبة الواي فاي'
+    });
+  };
   window.API = {
     online: !!ON,
     room: function room() {
@@ -288,7 +297,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       };
     },
     create: function create(name, mode) {
-      return postForm(ON.fn + '/create', {
+      return !ON ? hostedOnly() : postForm(ON.fn + '/create', {
         name: name,
         mode: mode
       }).then(function (r) {
@@ -331,6 +340,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       });
     },
     /** Hosted only: a voice message (Blob) recorded during the discussion, {@code ms} long. */sendVoice: function sendVoice(t, blob, ms) {
+      if (!ON) return hostedOnly();
       var type = (blob.type || 'audio/webm').split(';')[0];
       return readJson('voice upload', fetch(ON.fn + '/voice?' + query({
         code: _room,
@@ -392,7 +402,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   };
   // Brand mark supplied by the owner (transparent PNG, ~466x516).
   window.LOGO = function (cls) {
-    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwoyck0y" alt="شعار المافيا" draggable="false">';
+    return '<img class="logo ' + (cls || '') + '" src="./logo.png?v=mwpchnn6" alt="شعار المافيا" draggable="false">';
   };
   /** Roles on the mafia side (the godfather included). */
   window.isMafiaRole = function (r) {
